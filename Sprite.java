@@ -18,7 +18,7 @@ public class Sprite {
         return image.getHeight(null);
     }
 
-    public void draw(Graphics g, int x, int y, int width, int height) {
-        g.drawImage(image, x, y, width, height, null);
+    public void draw(Graphics g, int x, int y) {
+        g.drawImage(image, x, y, getWidth(), getHeight(), null);
     }
 }

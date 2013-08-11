@@ -23,13 +23,15 @@ public class Game extends Canvas {
     ArrayList<Entity> horses;
 
     public Game() {
+        Random r = new Random();
+
         gameOn = true;
         lastLoopTime = 0;
 
         horses = new ArrayList<Entity>(100);
 
-        for (int i = 0; i < 20; i++) {
-            Entity horse = new Entity("sprites/horse_0.png", 100, 100);
+        for (int i = 0; i < 5; i++) {
+            Entity horse = new Entity("sprites/horse_0.png", r.nextInt(width), 500);
             horses.add(horse);
         }
         makeWindow();
@@ -47,11 +49,11 @@ public class Game extends Canvas {
             int rand = r.nextInt(255);
             int rand1 = r.nextInt(255);
             int rand2 = r.nextInt(255);
-            g.setColor(new Color(rand, rand1, rand2));
+            g.setColor(Color.white);
             g.fillRect(0, 0, width, height);
 
             for (Entity horse : horses) {
-                horse.move();
+                horse.move(horses);
                 horse.draw(g);
             }
 
