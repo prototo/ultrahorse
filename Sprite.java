@@ -1,5 +1,4 @@
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 
 /**
  * Created by greg on 11/08/13.
@@ -19,7 +18,7 @@ public class Sprite {
         return image.getHeight(null);
     }
 
-    public void draw(Graphics g, int x, int y) {
-        g.drawImage(image, x, y, null);
+    public void draw(Graphics g, int x, int y, int width, int height) {
+        g.drawImage(image, x, y, width, height, null);
     }
 }

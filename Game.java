@@ -1,11 +1,8 @@
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Game extends Canvas {
     boolean gameOn;
@@ -16,14 +13,18 @@ public class Game extends Canvas {
 
     BufferStrategy strategy;
 
-    Entity horse;
+    ArrayList<Entity> horses;
 
     public Game() {
         gameOn = true;
         lastLoopTime = 0;
 
-        horse = new Entity("sprites/horse_0.png", 200, 200);
+        horses = new ArrayList<Entity>(100);
 
+        for (int i = 0; i < 20; i++) {
+            Entity horse = new Entity("sprites/horse_0.png", 100, 100);
+            horses.add(horse);
+        }
         makeWindow();
     }
 
@@ -33,11 +34,18 @@ public class Game extends Canvas {
             lastLoopTime = System.currentTimeMillis();
 
             Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
-            g.setColor(Color.CYAN);
+
+            Random r = new Random();
+            int rand = r.nextInt(255);
+            int rand1 = r.nextInt(255);
+            int rand2 = r.nextInt(255);
+            g.setColor(new Color(rand, rand1, rand2));
             g.fillRect(0, 0, width, height);
 
-            horse.move();
-            horse.draw(g);
+            for (Entity horse : horses) {
+                horse.move();
+                horse.draw(g);
+            }
 
             g.dispose();
             strategy.show();
