@@ -2,6 +2,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -14,6 +16,11 @@ public class Game extends Canvas {
     public static int width = 800;
     public static int height = 600;
 
+    private boolean keyUp = false;
+    private boolean keyDown = false;
+    private boolean keyLeft = false;
+    private boolean keyRight = false;
+
     BufferStrategy strategy;
 
     Entity horse;
@@ -25,6 +32,7 @@ public class Game extends Canvas {
         horse = new Entity("sprites/horse_0.png", 200, 200);
 
         makeWindow();
+        addKeyListener(new KeyInputHandler());
     }
 
     public void gameLoop() {
@@ -36,7 +44,7 @@ public class Game extends Canvas {
             g.setColor(Color.CYAN);
             g.fillRect(0, 0, width, height);
 
-            horse.move();
+            horse.move(keyUp, keyDown, keyLeft, keyRight);
             horse.draw(g);
 
             g.dispose();
@@ -68,5 +76,44 @@ public class Game extends Canvas {
 
         createBufferStrategy(2);
         strategy = getBufferStrategy();
+    }
+
+
+    public class KeyInputHandler extends KeyAdapter {
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                keyLeft = true;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                keyRight = true;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                keyUp = true;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                keyDown = true;
+            }
+        }
+
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                keyLeft = false;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                keyRight = false;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                keyUp = false;
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                keyDown = false;
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ public class Entity {
     private Sprite sprite;
     private double x;
     private double y;
+    private double moveSpeed;
 
     private Random r;
 
@@ -15,6 +16,7 @@ public class Entity {
         this.sprite = SpriteStore.get().getSprite(ref);
         this.x = x;
         this.y = y;
+        this.moveSpeed = 5;
 
         r = new Random();
     }
@@ -23,10 +25,18 @@ public class Entity {
         sprite.draw(g, (int) x, (int) y);
     }
 
-    public void move() {
-        if (r.nextInt(100) > 95) {
-            this.x = r.nextInt(Game.width - sprite.getWidth());
-            this.y = r.nextInt(Game.height - sprite.getHeight());
+    public void move(boolean up, boolean down, boolean left, boolean right) {
+        if (up) {
+            this.y -= moveSpeed;
+        }
+        if (down) {
+            this.y += moveSpeed;
+        }
+        if (left) {
+            this.x -= moveSpeed;
+        }
+        if (right) {
+            this.x += moveSpeed;
         }
     }
 }
