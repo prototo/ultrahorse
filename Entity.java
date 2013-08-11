@@ -1,4 +1,4 @@
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -22,21 +22,13 @@ public class Entity {
     }
 
     public void draw(Graphics g) {
-        sprite.draw(g, (int) x, (int) y);
+        int s = r.nextInt(200);
+
+        sprite.draw(g, (int) x, (int) y, s, s);
     }
 
-    public void move(boolean up, boolean down, boolean left, boolean right) {
-        if (up) {
-            this.y -= moveSpeed;
-        }
-        if (down) {
-            this.y += moveSpeed;
-        }
-        if (left) {
-            this.x -= moveSpeed;
-        }
-        if (right) {
-            this.x += moveSpeed;
-        }
+    public void move() {
+        this.x = r.nextInt(Game.width);
+        this.y = r.nextInt(Game.height);
     }
 }

@@ -76,10 +76,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Game.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="19" selection-start="629" selection-end="629" vertical-scroll-proportion="0.39198607" vertical-offset="180" max-vertical-offset="1875">
+            <state line="89" column="47" selection-start="2270" selection-end="2270" vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1995">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -98,10 +98,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Entity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Entity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Entity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="5" selection-start="867" selection-end="867" vertical-scroll-proportion="0.0" vertical-offset="71" max-vertical-offset="720">
+            <state line="25" column="0" selection-start="509" selection-end="509" vertical-scroll-proportion="0.63414633" vertical-offset="11" max-vertical-offset="600">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -112,10 +112,8 @@
       <file leaf-file-name="Sprite.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Sprite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="449" selection-end="449" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="0" column="18" selection-start="18" selection-end="18" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -133,8 +131,8 @@
         <option value="$PROJECT_DIR$/Sprite.java" />
         <option value="$PROJECT_DIR$/SpriteStore.java" />
         <option value="$PROJECT_DIR$/KeyInputHandler.java" />
-        <option value="$PROJECT_DIR$/Entity.java" />
         <option value="$PROJECT_DIR$/Game.java" />
+        <option value="$PROJECT_DIR$/Entity.java" />
       </list>
     </option>
   </component>
@@ -432,6 +430,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Sprite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="18" selection-start="18" selection-end="18" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="89" column="47" selection-start="2270" selection-end="2270" vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1995">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SpriteStore.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="48" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
@@ -441,27 +455,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Sprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="449" selection-end="449" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Entity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="5" selection-start="867" selection-end="867" vertical-scroll-proportion="0.0" vertical-offset="71" max-vertical-offset="720">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="19" selection-start="629" selection-end="629" vertical-scroll-proportion="0.39198607" vertical-offset="180" max-vertical-offset="1875">
+        <state line="25" column="0" selection-start="509" selection-end="509" vertical-scroll-proportion="0.63414633" vertical-offset="11" max-vertical-offset="600">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
