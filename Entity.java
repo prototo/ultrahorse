@@ -2,13 +2,21 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Entity {
-    private Sprite sprite;
-    private double x;
-    private double y;
-    private double dx;
-    private double dy;
-    private double moveSpeed;
+public abstract class Entity {
+    protected Sprite sprite;
+
+    protected double x;
+    protected double y;
+    protected double dx = 0;
+    protected double dy = 0;
+    protected double ax = 0.2;
+    protected double ay = 0.2;
+    protected double maxx = 5;
+    protected double maxy = 5;
+
+    protected boolean grounded = false;
+
+    private int facing;
 
     private Rectangle me = new Rectangle();
     private Rectangle him = new Rectangle();
@@ -17,34 +25,12 @@ public class Entity {
         Random r = new Random();
 
         this.sprite = SpriteStore.get().getSprite(ref);
-        this.moveSpeed = 5;
         this.x = x;
         this.y = y;
-        this.dx = r.nextInt((int) moveSpeed);
-        this.dy = 0;
     }
 
     public void draw(Graphics g) {
         sprite.draw(g, (int) x, (int) y);
-    }
-
-    public void move(ArrayList<Entity> entities) {
-        if (x < 0) {
-            dx = Math.abs(dx);
-        }
-        if (x + sprite.getWidth() > Game.width) {
-            dx = Math.abs(dx);
-            dx *= -1;
-        }
-
-        for (Entity horse : entities) {
-            if (!this.equals(horse) && collidesWith(horse)) {
-                dx *= -1;
-            }
-        }
-
-        this.y += this.dy;
-        this.x += this.dx;
     }
 
     public boolean collidesWith(Entity other) {
@@ -52,5 +38,38 @@ public class Entity {
         him.setBounds((int) other.x, (int) other.y, other.sprite.getWidth(), other.sprite.getHeight());
 
         return me.intersects(him);
+    }
+
+    public abstract void accelerate();
+
+    public void move() {
+        this.accelerate();
+
+        if (dx > maxx) dx = maxx;
+        if (dx < maxx * -1) dx = maxx * -1;
+
+        if (dy > maxy) dy = maxy;
+//        if (dy < maxy * -1) dy = maxy * -1;
+
+        dx *= Game.FRICTION;
+        dy += Game.GRAVITY;
+        dy *= Game.DRAG;
+
+        if (x + dx > Game.width - sprite.getWidth()) {
+            x = Game.width - sprite.getWidth();
+            dx = 0;
+        } else if (x + dx < 0) {
+            x = 0;
+            dx = 0;
+        } else {
+            x += dx;
+        }
+
+        if (y + dy > Game.height - sprite.getHeight()) {
+            y = Game.height - sprite.getHeight();
+            grounded = true;
+        } else {
+            y += dy;
+        }
     }
 }

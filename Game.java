@@ -10,13 +10,19 @@ public class Game extends Canvas {
     boolean gameOn;
     long lastLoopTime;
 
-    public static int width = 800;
-    public static int height = 600;
+    public static int width = 400;
+    public static int height = 400;
 
-    private boolean keyUp = false;
-    private boolean keyDown = false;
-    private boolean keyLeft = false;
-    private boolean keyRight = false;
+    public static boolean keyUp = false;
+    public static boolean keyDown = false;
+    public static boolean keyLeft = false;
+    public static boolean keyRight = false;
+
+    public static final double FRICTION = 0.75;
+    public static final double DRAG = 0.95;
+    public static final double GRAVITY = 0.4;
+
+    private Entity player;
 
     BufferStrategy strategy;
 
@@ -28,12 +34,8 @@ public class Game extends Canvas {
         gameOn = true;
         lastLoopTime = 0;
 
-        horses = new ArrayList<Entity>(100);
+        player = new PlayerEntity(100, 100);
 
-        for (int i = 0; i < 5; i++) {
-            Entity horse = new Entity("sprites/horse_0.png", r.nextInt(width), 500);
-            horses.add(horse);
-        }
         makeWindow();
         addKeyListener(new KeyInputHandler());
     }
@@ -52,10 +54,8 @@ public class Game extends Canvas {
             g.setColor(Color.white);
             g.fillRect(0, 0, width, height);
 
-            for (Entity horse : horses) {
-                horse.move(horses);
-                horse.draw(g);
-            }
+            player.move();
+            player.draw(g);
 
             g.dispose();
             strategy.show();
