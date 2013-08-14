@@ -61,7 +61,7 @@ public class Game extends Canvas {
             strategy.show();
 
             try {
-                Thread.sleep(10);
+                Thread.sleep(50);
             } catch (Exception e) {
 
             }
