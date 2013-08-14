@@ -54,6 +54,7 @@ public class Game extends Canvas {
             g.setColor(Color.white);
             g.fillRect(0, 0, width, height);
 
+            Map.get().draw(g);
             player.move();
             player.draw(g);
 
@@ -61,7 +62,7 @@ public class Game extends Canvas {
             strategy.show();
 
             try {
-                Thread.sleep(50);
+                Thread.sleep(40);
             } catch (Exception e) {
 
             }

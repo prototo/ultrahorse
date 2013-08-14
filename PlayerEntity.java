@@ -20,6 +20,7 @@ public class PlayerEntity extends Entity {
 
     private void setupAnimations() {
         standing = new ArrayList<Sprite>();
+        // animation looks shit with 0, legs jump too far forward in 1
 //        standing.add(SpriteStore.get().getSprite("sprites/player/standing/0.png"));
         standing.add(SpriteStore.get().getSprite("sprites/player/standing/1.png"));
         standing.add(SpriteStore.get().getSprite("sprites/player/standing/2.png"));

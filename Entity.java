@@ -65,9 +65,23 @@ public abstract class Entity {
             x += dx;
         }
 
-        if (y + dy > Game.height - sprite.getHeight()) {
-            y = Game.height - sprite.getHeight();
-            grounded = true;
+        if (dy > 0) {
+            int d = Map.get().dim;
+
+            double newy = y + sprite.getHeight();
+
+            int tilex = (int) Math.floor((x/Game.width)*d);
+            int tiley = (int) Math.floor((newy/Game.height)*d);
+
+            int tile = Map.get().getTile(tilex, tiley);
+
+            if (tile != 0) {
+                y = ((Game.height / d) * tiley) - sprite.getHeight();
+
+                grounded = true;
+            } else {
+                y += dy;
+            }
         } else {
             y += dy;
         }
