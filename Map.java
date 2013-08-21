@@ -34,8 +34,6 @@ public class Map {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         };
 
-        tilew = Game.width / dim;
-        tileh = Game.height / dim;
     }
 
     public static Map get() {

@@ -42,18 +42,5 @@ public class PlayerEntity extends Entity {
 
     @Override
     public void accelerate() {
-        if (Game.keyUp && grounded) {
-            dy -= jumpSpeed;
-            grounded = false;
-        }
-        if (Game.keyDown) {
-        }
-
-        if (Game.keyRight) {
-            dx += maxx * ax;
-        }
-        if (Game.keyLeft) {
-            dx -= maxx * ax;
-        }
     }
 }

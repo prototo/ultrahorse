@@ -43,47 +43,5 @@ public abstract class Entity {
     public abstract void accelerate();
 
     public void move() {
-        this.accelerate();
-
-        if (dx > maxx) dx = maxx;
-        if (dx < maxx * -1) dx = maxx * -1;
-
-        if (dy > maxy) dy = maxy;
-//        if (dy < maxy * -1) dy = maxy * -1;
-
-        dx *= Game.FRICTION;
-        dy += Game.GRAVITY;
-        dy *= Game.DRAG;
-
-        if (x + dx > Game.width - sprite.getWidth()) {
-            x = Game.width - sprite.getWidth();
-            dx = 0;
-        } else if (x + dx < 0) {
-            x = 0;
-            dx = 0;
-        } else {
-            x += dx;
-        }
-
-        if (dy > 0) {
-            int d = Map.get().dim;
-
-            double newy = y + sprite.getHeight();
-
-            int tilex = (int) Math.floor((x/Game.width)*d);
-            int tiley = (int) Math.floor((newy/Game.height)*d);
-
-            int tile = Map.get().getTile(tilex, tiley);
-
-            if (tile != 0) {
-                y = ((Game.height / d) * tiley) - sprite.getHeight();
-
-                grounded = true;
-            } else {
-                y += dy;
-            }
-        } else {
-            y += dy;
-        }
     }
 }
