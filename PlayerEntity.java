@@ -26,7 +26,7 @@ public class PlayerEntity extends Entity implements InputProcessor {
     float JUMP_TIMER = 0.4f;
     float jumpTimer = 0f;
 
-    private final float RUNNING_FRAME_DURATION = 0.3f;
+    private final float RUNNING_FRAME_DURATION = 0.25f;
     private float stateTime = 0f;
     private boolean facingLeft = false;
 
@@ -39,7 +39,7 @@ public class PlayerEntity extends Entity implements InputProcessor {
         super("sprites/player/standing/1.png", position);
 
         this.speed = 6f;
-        this.bounds.setSize(1, 1);
+        bounds.setHeight(2);
 
         keys.put(Keys.LEFT, false);
         keys.put(Keys.RIGHT, false);
@@ -74,34 +74,23 @@ public class PlayerEntity extends Entity implements InputProcessor {
 
         // UPDATE Y
         if (keys.get(Keys.SPACE)) {
-            state = State.JUMPING;
+            grounded = false;
+
             if (jumpTimer < JUMP_TIMER) {
                 jumpTimer += delta;
                 velocity.y = JUMP_FORCE;
             }
         }
 
-        if (state == State.JUMPING) {
+        if (!grounded) {
             acceleration.y = GRAVITY;
+        } else {
+            jumpTimer = 0;
         }
 
         // update
         velocity.add(acceleration.mul(delta));
         super.update(delta);
-
-        // RAD COLLISION DETECTION
-        if (position.y <= 1f) {
-            position.y = 1f;
-            velocity.y = 0;
-            acceleration.y = 0;
-            jumpTimer = 0;
-
-            if (velocity.x == 0) {
-                state = State.STANDING;
-            } else {
-                state = State.RUNNING;
-            }
-        }
     }
 
     /**

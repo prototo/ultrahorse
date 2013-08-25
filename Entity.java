@@ -1,7 +1,7 @@
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,6 +23,7 @@ public abstract class Entity {
 
     Rectangle bounds = new Rectangle();
     Facing facing = Facing.RIGHT;
+    boolean grounded = false;
 
     public Entity(String ref, Vector2 position) {
         this.position = position;
@@ -30,7 +31,14 @@ public abstract class Entity {
         this.texture = new Texture(ref);
         this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        this.bounds.setSize((int) size, (int) size);
+        bounds.setHeight(size);
+        bounds.setWidth(size);
+        setRect();
+    }
+
+    protected void setRect() {
+        bounds.x = position.x;
+        bounds.y = position.y;
     }
 
     public Texture getTexture() {
@@ -38,38 +46,84 @@ public abstract class Entity {
     }
 
     public void update(float delta) {
-        Vector2 newPos = position.cpy().add(velocity.cpy().mul(delta));
+        checkCollisions(delta);
+        position.add(velocity.cpy().mul(delta));
+        setRect();
+    }
 
-        int x = (int) Math.floor(newPos.x);
-        int y = (int) Math.floor(newPos.y);
-        int tile;
+    private void checkCollisions(float delta) {
+        Vector2 vel = velocity.cpy().mul(delta);
+        int startX, endX, startY, endY;
 
-        if (velocity.x > 0) {
-            tile = Map.get().getTile(x + 1, y);
-            if (tile == 1) {
-                newPos.x = (float) x;
-            }
+        // new rectangle to simulate movement on
+        Rectangle bounds = new Rectangle();
+        bounds.set(this.bounds);
+
+        // Check collisions on x axis
+        startY = (int) bounds.getY();
+        endY = (int) (bounds.getY() + bounds.getHeight());
+
+        if (vel.x < 0) {
+            startX = endX = (int) Math.floor(bounds.getX() + vel.x);
         } else {
-            tile = Map.get().getTile(x, y);
-            if (tile == 1) {
-                newPos.x = (float) x + 1;
+            startX = endX = (int) Math.floor(bounds.getX() + vel.x + bounds.getWidth());
+        }
+
+        // move on x
+        bounds.x += vel.x;
+
+        ArrayList<BlockEntity> collidable = getCollidable(startX, endX, startY, endY);
+        for (BlockEntity block : collidable) {
+            if (bounds.overlaps(block.bounds)) {
+                velocity.x = 0;
+                break;
             }
         }
 
-        /*
-        if (velocity.y > 0) {
-            tile = Map.get().getTile(x, y + 1);
-            if (tile == 1) {
-                newPos.y = (float) y;
-            }
+        // reset x
+        bounds.x = this.bounds.x;
+
+        // Check collisions on Y axis
+        startX = (int) bounds.getX();
+        endX = (int) (bounds.getX() + bounds.getWidth());
+
+        if (vel.y < 0) {
+            startY = endY = (int) Math.floor(bounds.getY() + vel.y);
         } else {
-            tile = Map.get().getTile(x, y);
-            if (tile == 1) {
-                newPos.y = (float) y + 1;
+            startY = endY = (int) Math.floor(bounds.getY() + vel.y + bounds.getHeight());
+        }
+
+        // move on y
+        bounds.y += vel.y;
+
+        collidable = getCollidable(startX, endX, startY, endY);
+        for (BlockEntity block : collidable) {
+            if (bounds.overlaps(block.bounds)) {
+                if (velocity.y < 0) {
+                    grounded = true;
+                    position.y = block.bounds.y + 1;
+                }
+
+                velocity.y = 0;
+                break;
             }
         }
-        */
 
-        position = newPos;
+        // WE DONE HERE.
+    }
+
+    private ArrayList<BlockEntity> getCollidable(int sx, int ex, int sy, int ey) {
+        ArrayList<BlockEntity> collidable = new ArrayList<BlockEntity>();
+
+        for (int x = sx; x <= ex; x++) {
+            for (int y = sy; y <= ey; y++) {
+                BlockEntity block = Map.get().getBlock(x, y);
+                if (block != null) {
+                    collidable.add(block);
+                }
+            }
+        }
+
+        return collidable;
     }
 }

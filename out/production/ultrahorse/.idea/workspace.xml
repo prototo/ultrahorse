@@ -2,81 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="21ab890d-c9cf-40ff-b478-09762480b377" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/BlockEntity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GDXGame.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Screen.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Game.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/LWJGLGame.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PNGDecoder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Sprite.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SpriteStore.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/doc/3rdparty/jinput_license.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/doc/3rdparty/jogl_license.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/doc/3rdparty/lzma_license.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/doc/3rdparty/openal_license.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/doc/CREDITS" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/doc/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/doc/README" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/doc/lwjgl_hidden_switches.text" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/AppleJavaExtensions.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/asm-debug-all.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/jinput.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/lwjgl-debug.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/lwjgl.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/lwjgl_test.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/lwjgl_util.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/lwjgl_util_applet.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/jar/lzma.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/linux/libjinput-linux.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/linux/libjinput-linux64.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/linux/liblwjgl.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/linux/liblwjgl64.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/linux/libopenal.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/linux/libopenal64.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/macosx/libjinput-osx.jnilib" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/macosx/liblwjgl.jnilib" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/macosx/openal.dylib" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/solaris/liblwjgl.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/solaris/liblwjgl64.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/solaris/libopenal.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/solaris/libopenal64.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/windows/OpenAL32.dll" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/windows/OpenAL64.dll" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/windows/jinput-dx8.dll" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/windows/jinput-dx8_64.dll" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/windows/jinput-raw.dll" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/windows/jinput-raw_64.dll" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/windows/lwjgl.dll" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/native/windows/lwjgl64.dll" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/Footsteps.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/appletlogo.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/appletprogress.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/ball.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/ball_sm.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/center.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/ding.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/left.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/logo/lwjgl_logo-with_jacket.ai" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/logo/lwjgl_logo-with_jacket.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/lwjgl_16x16.xpm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/lwjgl_32x32.xpm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/resources.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/right.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/alien.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/alien2.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/alien3.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/gotyou.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/hit.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/loose.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/pressanykey.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/ship.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/shot.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/shot.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/start.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/win.wav" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lwjgl-2.9.0/res/spaceinvaders/youwin.gif" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Entity.java" afterPath="$PROJECT_DIR$/Entity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Horse.java" afterPath="$PROJECT_DIR$/Horse.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Map.java" afterPath="$PROJECT_DIR$/Map.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PlayerEntity.java" afterPath="$PROJECT_DIR$/PlayerEntity.java" />
     </list>
@@ -165,24 +91,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Entity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Entity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Entity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="47" selection-start="1199" selection-end="1199" vertical-scroll-proportion="0.3644068" vertical-offset="490" max-vertical-offset="1215">
+            <state line="101" column="25" selection-start="2783" selection-end="2788" vertical-scroll-proportion="-16.038462" vertical-offset="1098" max-vertical-offset="2025">
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3162#3175#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerEntity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PlayerEntity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PlayerEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="104" column="0" selection-start="2799" selection-end="2799" vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="3075">
+            <state line="87" column="26" selection-start="2371" selection-end="2371" vertical-scroll-proportion="0.51473135" vertical-offset="1008" max-vertical-offset="2910">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4434#4452#0" expanded="true" />
+                <element signature="e#4112#4130#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -191,9 +118,9 @@
       <file leaf-file-name="Map.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Map.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="25" selection-start="2859" selection-end="2859" vertical-scroll-proportion="0.0" vertical-offset="880" max-vertical-offset="1515">
+            <state line="96" column="43" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0" vertical-offset="1152" max-vertical-offset="1815">
               <folding>
-                <element signature="e#2967#2980#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -226,10 +153,10 @@
         <option value="$PROJECT_DIR$/GDXGame.java" />
         <option value="$PROJECT_DIR$/BlockEntity.java" />
         <option value="$PROJECT_DIR$/Horse.java" />
-        <option value="$PROJECT_DIR$/PlayerEntity.java" />
         <option value="$PROJECT_DIR$/Screen.java" />
         <option value="$PROJECT_DIR$/Map.java" />
         <option value="$PROJECT_DIR$/Entity.java" />
+        <option value="$PROJECT_DIR$/PlayerEntity.java" />
       </list>
     </option>
   </component>
@@ -519,7 +446,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3991131" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27352297" sideWeight="0.20953436" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27352297" sideWeight="0.20953436" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32705098" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -527,7 +454,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27352297" sideWeight="0.4878049" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27352297" sideWeight="0.6984479" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30155212" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -535,6 +462,30 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3991131" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27352297" sideWeight="0.20953436" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32705098" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27352297" sideWeight="0.4878049" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30155212" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -602,6 +553,7 @@
         <state line="73" column="44" selection-start="1861" selection-end="1861" vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="1425">
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#3162#3175#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -611,7 +563,7 @@
         <state line="22" column="70" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0" vertical-offset="305" max-vertical-offset="975">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4434#4452#0" expanded="true" />
+            <element signature="e#4112#4130#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -620,7 +572,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="56" selection-start="1328" selection-end="1328" vertical-scroll-proportion="0.0" vertical-offset="167" max-vertical-offset="975">
           <folding>
-            <element signature="e#2967#2980#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -672,6 +624,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="43" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0" vertical-offset="1152" max-vertical-offset="1815">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Screen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="12" selection-start="393" selection-end="393" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="1110">
@@ -681,30 +642,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Map.java">
+    <entry file="file://$PROJECT_DIR$/Entity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="25" selection-start="2859" selection-end="2859" vertical-scroll-proportion="0.0" vertical-offset="880" max-vertical-offset="1515">
+        <state line="101" column="25" selection-start="2783" selection-end="2788" vertical-scroll-proportion="-16.038462" vertical-offset="1098" max-vertical-offset="2025">
           <folding>
-            <element signature="e#2967#2980#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3162#3175#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PlayerEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="0" selection-start="2799" selection-end="2799" vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="3075">
+        <state line="87" column="26" selection-start="2371" selection-end="2371" vertical-scroll-proportion="0.51473135" vertical-offset="1008" max-vertical-offset="2910">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4434#4452#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Entity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="47" selection-start="1199" selection-end="1199" vertical-scroll-proportion="0.3644068" vertical-offset="490" max-vertical-offset="1215">
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#4112#4130#0" expanded="true" />
           </folding>
         </state>
       </provider>

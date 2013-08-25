@@ -1,12 +1,8 @@
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.util.ArrayList;
 
 /**
  * Created by greg on 14/08/13.
@@ -19,7 +15,7 @@ public class Map {
     public int dim = 16;
 
     private OrthographicCamera cam;
-    private ArrayList<BlockEntity> blocks;
+    private BlockEntity[][] blocks;
     private SpriteBatch batch;
 
     private float camWidth = 16f;
@@ -70,11 +66,19 @@ public class Map {
 
     public void render() {
         batch.begin();
-        for (BlockEntity block : blocks) {
-            Rectangle rect = block.bounds.getBounds();
-            float x1 = block.position.x * ppuy;
-            float y1 = block.position.y * ppuy;
-            batch.draw(block.getTexture(), x1, y1, rect.width * ppux, rect.height * ppuy);
+        for (int x = 0; x < dim; x++) {
+            for (int y = 0; y < dim; y++) {
+                BlockEntity block = getBlock(x, y);
+
+                if (block != null) {
+                    float bx = block.position.x * ppuy;
+                    float by = block.position.y * ppuy;
+                    float bw = block.bounds.width * ppux;
+                    float bh = block.bounds.height * ppuy;
+
+                    batch.draw(block.getTexture(), bx, by, bw, bh);
+                }
+            }
         }
         batch.end();
     }
@@ -86,18 +90,26 @@ public class Map {
         return tiles[y][x];
     }
 
-    public ArrayList<BlockEntity> getMap() {
-        ArrayList<BlockEntity> blocks = new ArrayList<BlockEntity>();
+    public BlockEntity[][] getMap() {
+        BlockEntity[][] blocks = new BlockEntity[dim][dim];
 
         for (int x = 0; x < dim; x++) {
             for (int y = 0; y < dim; y++) {
                 if (getTile(x, y) == 1) {
                     BlockEntity block = new BlockEntity(new Vector2(x, y));
-                    blocks.add(block);
+                    blocks[x][y] = block;
                 }
             }
         }
 
         return blocks;
+    }
+
+    public BlockEntity getBlock(int x, int y) {
+        try {
+            return blocks[x][y];
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
