@@ -2,9 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="21ab890d-c9cf-40ff-b478-09762480b377" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Entity.java" afterPath="$PROJECT_DIR$/Entity.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/horse_0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/running/0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/running/1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/running/2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/running/3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/running/running.pack" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/running/running.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/standing/0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/standing/1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/player/standing/2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sprites/splash.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Map.java" afterPath="$PROJECT_DIR$/Map.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PlayerEntity.java" afterPath="$PROJECT_DIR$/PlayerEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Screen.java" afterPath="$PROJECT_DIR$/Screen.java" />
     </list>
     <ignored path="ultrahorse.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,10 +91,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Screen.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Screen.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Screen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="12" selection-start="393" selection-end="393" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="1110">
+            <state line="50" column="45" selection-start="1382" selection-end="1382" vertical-scroll-proportion="0.519802" vertical-offset="435" max-vertical-offset="1470">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -91,10 +102,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="GDXGame.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GDXGame.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="13" selection-start="120" selection-end="120" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Entity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Entity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="25" selection-start="2783" selection-end="2788" vertical-scroll-proportion="-16.038462" vertical-offset="1098" max-vertical-offset="2025">
+            <state line="105" column="0" selection-start="2909" selection-end="2909" vertical-scroll-proportion="-13.653846" vertical-offset="1220" max-vertical-offset="2025">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3162#3175#0" expanded="true" />
@@ -103,13 +123,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerEntity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PlayerEntity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PlayerEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="26" selection-start="2371" selection-end="2371" vertical-scroll-proportion="0.51473135" vertical-offset="1008" max-vertical-offset="2910">
+            <state line="76" column="29" selection-start="2117" selection-end="2117" vertical-scroll-proportion="-15.384615" vertical-offset="740" max-vertical-offset="3135">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4112#4130#0" expanded="true" />
+                <element signature="e#4809#4827#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -118,7 +138,7 @@
       <file leaf-file-name="Map.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Map.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="43" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0" vertical-offset="1152" max-vertical-offset="1815">
+            <state line="69" column="27" selection-start="3066" selection-end="3066" vertical-scroll-proportion="0.0" vertical-offset="789" max-vertical-offset="1800">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -153,18 +173,18 @@
         <option value="$PROJECT_DIR$/GDXGame.java" />
         <option value="$PROJECT_DIR$/BlockEntity.java" />
         <option value="$PROJECT_DIR$/Horse.java" />
-        <option value="$PROJECT_DIR$/Screen.java" />
-        <option value="$PROJECT_DIR$/Map.java" />
         <option value="$PROJECT_DIR$/Entity.java" />
         <option value="$PROJECT_DIR$/PlayerEntity.java" />
+        <option value="$PROJECT_DIR$/Map.java" />
+        <option value="$PROJECT_DIR$/Screen.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="958" />
+    <option name="x" value="-1" />
     <option name="y" value="35" />
-    <option name="width" value="962" />
-    <option name="height" value="1045" />
+    <option name="width" value="1922" />
+    <option name="height" value="1048" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -227,68 +247,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="sprites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ultrahorse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ultrahorse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sprites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="player" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="standing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ultrahorse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ultrahorse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sprites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="player" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="running" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ultrahorse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ultrahorse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sprites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="player" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -436,7 +394,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="958" y="35" width="962" height="1045" extended-state="4" />
+    <frame x="-1" y="35" width="1922" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -448,14 +406,14 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27352297" sideWeight="0.20953436" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32705098" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32596686" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27352297" sideWeight="0.6984479" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30155212" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27321237" sideWeight="0.6994475" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3005525" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -563,7 +521,7 @@
         <state line="22" column="70" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0" vertical-offset="305" max-vertical-offset="975">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4112#4130#0" expanded="true" />
+            <element signature="e#4809#4827#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -596,17 +554,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Horse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="32" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/libgdx/gdx.jar!/com/badlogic/gdx/Game.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="0" selection-start="736" selection-end="736" vertical-scroll-proportion="-13.8" vertical-offset="0" max-vertical-offset="435">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sprites/player.pack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="11" selection-start="159" selection-end="160" vertical-scroll-proportion="0.27227724" vertical-offset="0" max-vertical-offset="690">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Entity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="105" column="0" selection-start="2909" selection-end="2909" vertical-scroll-proportion="-13.653846" vertical-offset="1220" max-vertical-offset="2025">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3162#3175#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PlayerEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="29" selection-start="2117" selection-end="2117" vertical-scroll-proportion="-15.384615" vertical-offset="740" max-vertical-offset="3135">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4809#4827#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -617,16 +595,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sprites/player/running/running.pack">
+    <entry file="file://$PROJECT_DIR$/Horse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="1" selection-start="68" selection-end="68" vertical-scroll-proportion="0.12437811" vertical-offset="0" max-vertical-offset="603">
+        <state line="6" column="32" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Map.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="43" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0" vertical-offset="1152" max-vertical-offset="1815">
+        <state line="69" column="27" selection-start="3066" selection-end="3066" vertical-scroll-proportion="0.0" vertical-offset="789" max-vertical-offset="1800">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -635,29 +613,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Screen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="12" selection-start="393" selection-end="393" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="1110">
+        <state line="50" column="45" selection-start="1382" selection-end="1382" vertical-scroll-proportion="0.519802" vertical-offset="435" max-vertical-offset="1470">
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Entity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="25" selection-start="2783" selection-end="2788" vertical-scroll-proportion="-16.038462" vertical-offset="1098" max-vertical-offset="2025">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3162#3175#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PlayerEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="26" selection-start="2371" selection-end="2371" vertical-scroll-proportion="0.51473135" vertical-offset="1008" max-vertical-offset="2910">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4112#4130#0" expanded="true" />
           </folding>
         </state>
       </provider>

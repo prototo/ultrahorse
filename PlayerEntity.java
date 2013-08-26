@@ -21,7 +21,7 @@ public class PlayerEntity extends Entity implements InputProcessor {
 
     float ACCELERATION = 5f;
     float FRICTION = 0.5f;
-    float GRAVITY = -30f;
+    float GRAVITY = -40f;
     float JUMP_FORCE = 10f;
     float JUMP_TIMER = 0.4f;
     float jumpTimer = 0f;
@@ -32,11 +32,11 @@ public class PlayerEntity extends Entity implements InputProcessor {
 
     private Animation runLeftAnimation;
     private Animation runRightAnimation;
-    private TextureRegion standLeft;
-    private TextureRegion standRight;
+    private Animation standLeftAnimation;
+    private Animation standRightAnimation;
 
     public PlayerEntity(Vector2 position) {
-        super("sprites/player/standing/1.png", position);
+        super("sprites/block.png", position);
 
         this.speed = 6f;
         bounds.setHeight(2);
@@ -82,9 +82,9 @@ public class PlayerEntity extends Entity implements InputProcessor {
             }
         }
 
-        if (!grounded) {
-            acceleration.y = GRAVITY;
-        } else {
+        acceleration.y = GRAVITY;
+
+        if (grounded) {
             jumpTimer = 0;
         }
 
@@ -97,22 +97,32 @@ public class PlayerEntity extends Entity implements InputProcessor {
      * setup the animations for the player
      */
     private void setupAnimations() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("sprites/player/running/running.pack"));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("sprites/player.pack"));
 
-        // right idle texture
-        standRight = atlas.findRegion("1");
+        // right standing animation
+        TextureRegion[] standRightFrames = new TextureRegion[2];
+        for (int i = 0; i < standRightFrames.length; i++) {
+            standRightFrames[i] = atlas.findRegion("standing-" + i);
+        }
+        standRightAnimation = new Animation(RUNNING_FRAME_DURATION, standRightFrames);
 
-        // left idle texture
-        standLeft = new TextureRegion(standRight);
-        standLeft.flip(true, false);
+        // left standing animation
+        TextureRegion[] standLeftFrames = new TextureRegion[2];
+        for (int i = 0; i < standLeftFrames.length; i++) {
+            standLeftFrames[i] = new TextureRegion(standRightFrames[i]);
+            standLeftFrames[i].flip(true, false);
+        }
+        standLeftAnimation = new Animation(RUNNING_FRAME_DURATION, standLeftFrames);
 
         // right running animation
         TextureRegion[] runRightFrames = new TextureRegion[4];
-        for (int i = 0; i < runRightFrames.length; i++) {
-            runRightFrames[i] = atlas.findRegion(""+i);
-        }
+        runRightFrames[0] = atlas.findRegion("running-0");
+        runRightFrames[1] = atlas.findRegion("standing-0");
+        runRightFrames[2] = atlas.findRegion("running-1");
+        runRightFrames[3] = atlas.findRegion("standing-0");
         runRightAnimation = new Animation(RUNNING_FRAME_DURATION, runRightFrames);
 
+        // running left animation
         TextureRegion[] runLeftFrames = new TextureRegion[4];
         for(int i = 0; i < runLeftFrames.length; i++) {
             runLeftFrames[i] = new TextureRegion(runRightFrames[i]);
@@ -135,7 +145,7 @@ public class PlayerEntity extends Entity implements InputProcessor {
             }
         }
 
-        return facingLeft ? standLeft : standRight;
+        return facingLeft ? standLeftAnimation.getKeyFrame(stateTime, true) : standRightAnimation.getKeyFrame(stateTime, true);
     }
 
     /**
@@ -153,6 +163,11 @@ public class PlayerEntity extends Entity implements InputProcessor {
     @Override
     public boolean keyUp(int i) {
         keys.put(i, false);
+
+        if (i == Keys.SPACE) {
+            jumpTimer = 1000;
+        }
+
         return false;
     }
 
