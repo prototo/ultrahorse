@@ -1,4 +1,5 @@
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,15 +11,10 @@ import java.util.ArrayList;
 /**
  * Created by greg on 23/08/13.
  */
-public class Screen implements com.badlogic.gdx.Screen {
-    ArrayList<Entity> tiles;
-    PlayerEntity player;
-
-    SpriteBatch batch = new SpriteBatch();
-    Map map;
-    OrthographicCamera cam;
-
-    private Texture background;
+public abstract class Screen implements com.badlogic.gdx.Screen {
+    protected SpriteBatch batch = new SpriteBatch();
+    protected OrthographicCamera cam;
+    protected Texture background;
 
     float CAMWIDTH = Horse.width;
     float CAMHEIGHT = Horse.height;
@@ -26,11 +22,11 @@ public class Screen implements com.badlogic.gdx.Screen {
     float CAM_MIN_Y = CAMHEIGHT/2;
     float CAM_MAX_X, CAM_MAX_Y;
 
-    public Screen() {
-        player = new PlayerEntity(new Vector2(2, 2));
-        map = Map.get();
+    float BG_REPEAT_X = 1, BG_REPEAT_Y = 1;
+
+    public Screen(String backgroundRef) {
         cam = new OrthographicCamera(CAMWIDTH, CAMHEIGHT);
-        background = new Texture("sprites/stars.png");
+        background = new Texture(backgroundRef);
         background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }
 
@@ -38,48 +34,22 @@ public class Screen implements com.badlogic.gdx.Screen {
      * Update the camera position to focus on the player entity
      * staying inside the map bounds
      */
-    private void updateCamera() {
-        float camx = player.position.x * map.ppux;
-        float camy = player.position.y * map.ppuy;
+    protected abstract void updateCamera();
 
-        if (camx < CAM_MIN_X) {
-            camx = CAM_MIN_X;
-        }
-        if (camx > CAM_MAX_X) {
-            camx = CAM_MAX_X;
-        }
-
-        if (camy < CAM_MIN_Y) {
-            camy = CAM_MIN_Y;
-        }
-//        else if (camy > CAM_MAX_Y) {
-//            camy = CAM_MAX_Y;
-//        }
-
-        cam.position.x = camx;
-        cam.position.y = camy;
-        cam.update();
-    }
-
-    @Override
     public void resize(int width, int height) {
-        map.setSize(width, height);
-
-        // update camera!
-        CAM_MAX_X = map.getPixelWidth() - CAM_MIN_X;
-        CAM_MAX_Y = map.getPixelHeight() - CAM_MIN_Y;
         updateCamera();
     }
 
-    @Override
+    protected abstract void renderSprites();
+    protected abstract void update(float delta);
+
     public void render(float delta) {
+        update(delta);
+
         GL10 gl = Gdx.graphics.getGL10();
 
-        gl.glClearColor(0.5f, 0.5f, 0.8f, 1f);
+        gl.glClearColor(0, 0, 0, 0);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-        // update the player
-        player.update(delta);
 
         updateCamera();
         batch.setProjectionMatrix(cam.combined);
@@ -88,11 +58,18 @@ public class Screen implements com.badlogic.gdx.Screen {
         float parallax = cam.position.x - CAM_MIN_X;
         parallax *= 0.8;
 
-        // draw all the things
         batch.begin();
-        batch.draw(background, parallax, 0, background.getWidth() * 3, background.getHeight() * 3, 0, 3, 3, 0);
-        map.render(batch);
-        batch.draw(player.getTextureRegion(), player.position.x * map.ppux, player.position.y * map.ppuy, player.bounds.width * map.ppux, player.bounds.height * map.ppuy);
+
+            // draw the background
+            batch.draw(
+                    background, parallax, 0,
+                    background.getWidth() * BG_REPEAT_X, background.getHeight() * BG_REPEAT_Y,
+                    0, BG_REPEAT_Y, BG_REPEAT_X, 0
+            );
+
+            // draw everything else
+            renderSprites();
+
         batch.end();
     }
 

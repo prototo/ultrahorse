@@ -46,7 +46,6 @@ public class PlayerEntity extends Entity implements InputProcessor {
         keys.put(Keys.SPACE, false);
 
         setupAnimations();
-        Gdx.input.setInputProcessor(this);
     }
 
     public void update(float delta) {
