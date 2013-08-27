@@ -1,9 +1,8 @@
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -19,6 +18,8 @@ public class Screen implements com.badlogic.gdx.Screen {
     Map map;
     OrthographicCamera cam;
 
+    private Texture background;
+
     float CAMWIDTH = Horse.width;
     float CAMHEIGHT = Horse.height;
     float CAM_MIN_X = CAMWIDTH/2;
@@ -29,6 +30,8 @@ public class Screen implements com.badlogic.gdx.Screen {
         player = new PlayerEntity(new Vector2(2, 2));
         map = Map.get();
         cam = new OrthographicCamera(CAMWIDTH, CAMHEIGHT);
+        background = new Texture("sprites/stars.png");
+        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }
 
     /**
@@ -83,6 +86,7 @@ public class Screen implements com.badlogic.gdx.Screen {
 
         // draw all the things
         batch.begin();
+        batch.draw(background, 0, 0, background.getWidth() * 3, background.getHeight() * 3, 0, 3, 3, 0);
         map.render(batch);
         batch.draw(player.getTextureRegion(), player.position.x * map.ppux, player.position.y * map.ppuy, player.bounds.width * map.ppux, player.bounds.height * map.ppuy);
         batch.end();
