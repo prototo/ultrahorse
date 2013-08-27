@@ -84,9 +84,13 @@ public class Screen implements com.badlogic.gdx.Screen {
         updateCamera();
         batch.setProjectionMatrix(cam.combined);
 
+        // render the background slightly behind for parallax
+        float parallax = cam.position.x - CAM_MIN_X;
+        parallax *= 0.8;
+
         // draw all the things
         batch.begin();
-        batch.draw(background, 0, 0, background.getWidth() * 3, background.getHeight() * 3, 0, 3, 3, 0);
+        batch.draw(background, parallax, 0, background.getWidth() * 3, background.getHeight() * 3, 0, 3, 3, 0);
         map.render(batch);
         batch.draw(player.getTextureRegion(), player.position.x * map.ppux, player.position.y * map.ppuy, player.bounds.width * map.ppux, player.bounds.height * map.ppuy);
         batch.end();
