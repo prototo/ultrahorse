@@ -21,18 +21,51 @@ public class Screen implements com.badlogic.gdx.Screen {
 
     float CAMWIDTH = Horse.width;
     float CAMHEIGHT = Horse.height;
+    float CAM_MIN_X = CAMWIDTH/2;
+    float CAM_MIN_Y = CAMHEIGHT/2;
+    float CAM_MAX_X, CAM_MAX_Y;
 
     public Screen() {
         player = new PlayerEntity(new Vector2(2, 2));
         map = Map.get();
-
         cam = new OrthographicCamera(CAMWIDTH, CAMHEIGHT);
-        cam.position.set(CAMHEIGHT / 2, CAMHEIGHT / 2, 0);
+    }
+
+    /**
+     * Update the camera position to focus on the player entity
+     * staying inside the map bounds
+     */
+    private void updateCamera() {
+        float camx = player.position.x * map.ppux;
+        float camy = player.position.y * map.ppuy;
+
+        if (camx < CAM_MIN_X) {
+            camx = CAM_MIN_X;
+        }
+        if (camx > CAM_MAX_X) {
+            camx = CAM_MAX_X;
+        }
+
+        if (camy < CAM_MIN_Y) {
+            camy = CAM_MIN_Y;
+        }
+//        else if (camy > CAM_MAX_Y) {
+//            camy = CAM_MAX_Y;
+//        }
+
+        cam.position.x = camx;
+        cam.position.y = camy;
+        cam.update();
     }
 
     @Override
     public void resize(int width, int height) {
         map.setSize(width, height);
+
+        // update camera!
+        CAM_MAX_X = map.getPixelWidth() - CAM_MIN_X;
+        CAM_MAX_Y = map.getPixelHeight() - CAM_MIN_Y;
+        updateCamera();
     }
 
     @Override
@@ -45,18 +78,12 @@ public class Screen implements com.badlogic.gdx.Screen {
         // update the player
         player.update(delta);
 
-        // work out new camera position
-        float camx, camy;
-        camx = (player.position.x * map.ppux) - cam.position.x;
-        camy = (player.position.y * map.ppuy) - cam.position.y;
-
-        cam.translate(camx, camy);
-        cam.update();
+        updateCamera();
         batch.setProjectionMatrix(cam.combined);
 
         // draw all the things
-        map.render(batch);
         batch.begin();
+        map.render(batch);
         batch.draw(player.getTextureRegion(), player.position.x * map.ppux, player.position.y * map.ppuy, player.bounds.width * map.ppux, player.bounds.height * map.ppuy);
         batch.end();
     }

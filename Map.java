@@ -63,8 +63,15 @@ public class Map {
         ppux = ppuy = (float) height / 12;
     }
 
+    public float getPixelWidth() {
+        return dimx * ppux;
+    }
+
+    public float getPixelHeight() {
+        return dimy * ppuy;
+    }
+
     public void render(SpriteBatch batch) {
-        batch.begin();
         for (int x = 0; x < dimx; x++) {
             for (int y = 0; y < dimy; y++) {
                 BlockEntity block = getBlock(x, y);
@@ -79,7 +86,6 @@ public class Map {
                 }
             }
         }
-        batch.end();
     }
 
     public int getTile(int x, int y) {
