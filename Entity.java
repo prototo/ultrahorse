@@ -9,6 +9,9 @@ public abstract class Entity {
     protected double x;
     protected double y;
 
+    protected final float RUNNING_FRAME_DURATION = 0.25f;
+    protected float stateTime = 0;
+
     public enum Facing {
         LEFT, RIGHT
     }

@@ -72,7 +72,7 @@ public class GameScreen extends Screen {
     @Override
     protected void renderSprites() {
         map.render(batch);
-        batch.draw(player.getTextureRegion(), player.position.x * map.ppux, player.position.y * map.ppuy);
+        player.draw(batch);
     }
 
     @Override

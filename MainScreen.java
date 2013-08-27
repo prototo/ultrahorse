@@ -60,8 +60,7 @@ public class MainScreen extends Screen implements InputProcessor {
 
     @Override
     public boolean keyDown(int i) {
-        System.out.println(i);
-        if (offset <= 50 && i == Input.Keys.SPACE) {
+        if (i == Input.Keys.SPACE) {
             game.startGame();
         }
         return false;
@@ -69,13 +68,11 @@ public class MainScreen extends Screen implements InputProcessor {
 
     @Override
     public boolean keyUp(int i) {
-        System.out.println(i);
         return false;
     }
 
     @Override
     public boolean keyTyped(char c) {
-        System.out.println(c);
         return false;
     }
 

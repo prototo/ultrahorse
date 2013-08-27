@@ -2,11 +2,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Input.Keys;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,9 +27,8 @@ public class PlayerEntity extends Entity implements InputProcessor {
     float JUMP_FORCE = 10f;
     float JUMP_TIMER = 0.4f;
     float jumpTimer = 0f;
+    boolean mayShoot = true;
 
-    private final float RUNNING_FRAME_DURATION = 0.25f;
-    private float stateTime = 0f;
     private boolean facingLeft = false;
 
     private Animation runLeftAnimation;
@@ -41,11 +42,23 @@ public class PlayerEntity extends Entity implements InputProcessor {
         this.speed = 6f;
         bounds.setHeight(2);
 
-        keys.put(Keys.LEFT, false);
-        keys.put(Keys.RIGHT, false);
-        keys.put(Keys.SPACE, false);
+        keys.put(Keys.LEFT, false); // walk left
+        keys.put(Keys.RIGHT, false);    // walk right
+        keys.put(Keys.SPACE, false);    // jump
+        keys.put(Keys.X, false);    // fire
 
         setupAnimations();
+    }
+
+    public void draw(SpriteBatch batch) {
+        float ppux = Map.get().ppux;
+        float ppuy = Map.get().ppuy;
+
+        batch.draw(getTextureRegion(), position.x * ppux, position.y * ppuy);
+
+        for (BulletEntity bullet : bullets) {
+            batch.draw(bullet.getTextureRegion(), bullet.position.x * ppux, bullet.position.y * ppuy);
+        }
     }
 
     public void update(float delta) {
@@ -89,7 +102,28 @@ public class PlayerEntity extends Entity implements InputProcessor {
 
         // update
         velocity.add(acceleration.mul(delta));
+        updateBullets(delta);
         super.update(delta);
+    }
+
+    ArrayList<BulletEntity> bullets = new ArrayList<BulletEntity>();
+    private void updateBullets(float delta) {
+        for (BulletEntity bullet : bullets) {
+            if (bullet.isDead()) {
+//                bullets.remove(bullet);
+                // cant remove from arraylist during iteration
+            } else {
+                bullet.update(delta);
+            }
+        }
+
+        if (keys.get(Keys.X)) {
+            if (mayShoot) {
+                shoot();
+            }
+        } else if (!mayShoot) {
+            mayShoot = true;
+        }
     }
 
     /**
@@ -145,6 +179,20 @@ public class PlayerEntity extends Entity implements InputProcessor {
         }
 
         return facingLeft ? standLeftAnimation.getKeyFrame(stateTime, true) : standRightAnimation.getKeyFrame(stateTime, true);
+    }
+
+    /**
+     * fires the lasers
+     */
+    private void shoot() {
+        Vector2 bulletPos = new Vector2();
+        bulletPos.set(position.x + size / 2, position.y + size / 2);
+        int direction = facingLeft ? -1 : 1;
+
+        BulletEntity bullet = new BulletEntity(bulletPos, direction);
+        bullets.add(bullet);
+
+        mayShoot = false;
     }
 
     /**
