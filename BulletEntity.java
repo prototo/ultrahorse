@@ -37,11 +37,11 @@ public class BulletEntity extends Entity {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("sprites/player.pack"));
 
         // right standing animation
-        TextureRegion[] standRightFrames = new TextureRegion[2];
-        for (int i = 0; i < standRightFrames.length; i++) {
-            standRightFrames[i] = atlas.findRegion("shot-" + i);
+        TextureRegion[] bulletFrames = new TextureRegion[2];
+        for (int i = 0; i < bulletFrames.length; i++) {
+            bulletFrames[i] = atlas.findRegion("shot-" + i);
         }
-        bulletAnimation = new Animation(RUNNING_FRAME_DURATION, standRightFrames);
+        bulletAnimation = new Animation(RUNNING_FRAME_DURATION, bulletFrames);
     }
 
     public TextureRegion getTextureRegion() {
