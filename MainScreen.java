@@ -20,6 +20,7 @@ public class MainScreen extends Screen implements InputProcessor {
 
         offset = 10000;
         BG_REPEAT_Y = offset / background.getHeight();
+        BG_REPEAT_X = (float) Horse.width / background.getWidth();
 
         horse = new PlayerEntity(new Vector2(CAMWIDTH/2, CAMHEIGHT/2));
 
