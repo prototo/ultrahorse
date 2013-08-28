@@ -108,10 +108,10 @@ public class PlayerEntity extends Entity implements InputProcessor {
 
     ArrayList<BulletEntity> bullets = new ArrayList<BulletEntity>();
     private void updateBullets(float delta) {
-        for (BulletEntity bullet : bullets) {
+        for (int i = bullets.size() - 1; i >= 0; i--) {
+            BulletEntity bullet = bullets.get(i);
             if (bullet.isDead()) {
-//                bullets.remove(bullet);
-                // cant remove from arraylist during iteration
+                bullets.remove(bullet);
             } else {
                 bullet.update(delta);
             }
