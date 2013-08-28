@@ -38,9 +38,14 @@ public abstract class Entity {
     }
 
     protected void setSize() {
-        TextureRegion texture = getTextureRegion();
-        bounds.setWidth(texture.getRegionWidth() / Horse.baseUnitSize);
-        bounds.setHeight(texture.getRegionHeight() / Horse.baseUnitSize);
+        try {
+            TextureRegion texture = getTextureRegion();
+            bounds.setWidth(texture.getRegionWidth() / Horse.baseUnitSize);
+            bounds.setHeight(texture.getRegionHeight() / Horse.baseUnitSize);
+        } catch (Exception e) {
+            bounds.setWidth(texture.getWidth() / Horse.baseUnitSize);
+            bounds.setHeight(texture.getHeight() / Horse.baseUnitSize);
+        }
     }
 
     protected abstract TextureRegion getTextureRegion();
@@ -60,7 +65,7 @@ public abstract class Entity {
         setRect();
     }
 
-    private void checkCollisions(float delta) {
+    protected void checkCollisions(float delta) {
         Vector2 vel = velocity.cpy().mul(delta);
         int startX, endX, startY, endY;
 

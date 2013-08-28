@@ -16,11 +16,15 @@ public class GameScreen extends Screen {
     protected PlayerEntity player;
     protected Map map;
 
+    protected HostileEntity hostile;
+
     public GameScreen() {
         super("sprites/stars.png");
 
         player = new PlayerEntity(new Vector2(2, 2));
         map = Map.get();
+
+        hostile = new HostileEntity(new Vector2(8, 8));
     }
 
     @Override
@@ -74,11 +78,14 @@ public class GameScreen extends Screen {
     protected void renderSprites() {
         map.render(batch, unitSize);
         player.draw(batch, unitSize);
+        hostile.draw(batch);
     }
 
     @Override
     protected void update(float delta) {
         player.setSize();
         player.update(delta);
+
+        hostile.update(delta);
     }
 }
