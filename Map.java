@@ -68,10 +68,11 @@ public class Map {
                 BlockEntity block = getBlock(x, y);
 
                 if (block != null) {
-                    float bx = block.position.x * unitSize;
-                    float by = block.position.y * unitSize;
                     float bw = block.bounds.width * unitSize;
                     float bh = block.bounds.height * unitSize;
+                    float bx = block.position.x * bw;
+                    float by = block.position.y * bh;
+
                     batch.draw(block.getTexture(), bx, by, bw, bh);
                 }
             }

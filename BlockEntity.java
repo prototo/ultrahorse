@@ -6,11 +6,13 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class BlockEntity extends Entity {
 
+    float size = 1f;
+
     public BlockEntity(Vector2 position) {
         super("sprites/block.png", position);
 
-        bounds.setWidth(1f);
-        bounds.setHeight(1f);
+        bounds.setHeight(size);
+        bounds.setWidth(size);
     }
 
     @Override

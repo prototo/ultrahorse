@@ -5,7 +5,7 @@ public class Horse {
 
     public static int width = 800;
     public static int height = 600;
-    public static int unitsAcross = 10;
+    public static int unitsAcross = 20;
     public static float baseUnitSize = height / unitsAcross;
 
     public static void main(String []args) {

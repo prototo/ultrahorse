@@ -110,7 +110,7 @@ public abstract class Entity {
             if (bounds.overlaps(block.bounds)) {
                 if (velocity.y < 0) {
                     grounded = true;
-                    position.y = block.bounds.y + block.bounds.getHeight();
+                    position.y = block.bounds.y + block.bounds.getHeight() * 1.01f;
                 }
 
                 velocity.y = 0;
@@ -119,6 +119,14 @@ public abstract class Entity {
         }
 
         // WE DONE HERE.
+    }
+
+    public float getActualHeight() {
+        return bounds.getHeight() * Screen.unitSize;
+    }
+
+    public float getActualWidth() {
+        return bounds.getWidth() * Screen.unitSize;
     }
 
     private ArrayList<BlockEntity> getCollidable(int sx, int ex, int sy, int ey) {
