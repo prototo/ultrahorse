@@ -1,4 +1,5 @@
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 
 /**
  * Created by greg on 23/08/13.
@@ -12,6 +13,8 @@ public class GDXGame extends Game {
     @Override
     public void create() {
 //        SHOW_MAIN_MENU = false;
+
+        Gdx.graphics.setVSync(true);
 
         main = new MainScreen(this);
         game = new GameScreen();

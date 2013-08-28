@@ -1,4 +1,5 @@
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -18,7 +19,6 @@ public abstract class Entity {
 
     protected Texture texture;
     float speed = 1f;
-    float size = 1f;
 
     Vector2 position = new Vector2();
     Vector2 acceleration = new Vector2();
@@ -34,10 +34,16 @@ public abstract class Entity {
         this.texture = new Texture(ref);
         this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        bounds.setHeight(size);
-        bounds.setWidth(size);
         setRect();
     }
+
+    protected void setSize() {
+        TextureRegion texture = getTextureRegion();
+        bounds.setWidth(texture.getRegionWidth() / Horse.baseUnitSize);
+        bounds.setHeight(texture.getRegionHeight() / Horse.baseUnitSize);
+    }
+
+    protected abstract TextureRegion getTextureRegion();
 
     protected void setRect() {
         bounds.x = position.x;
@@ -104,7 +110,7 @@ public abstract class Entity {
             if (bounds.overlaps(block.bounds)) {
                 if (velocity.y < 0) {
                     grounded = true;
-                    position.y = block.bounds.y + 1;
+                    position.y = block.bounds.y + block.bounds.getHeight();
                 }
 
                 velocity.y = 0;

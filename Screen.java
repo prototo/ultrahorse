@@ -16,12 +16,13 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     protected OrthographicCamera cam;
     protected Texture background;
 
+    public static float unitSize;
+
     float CAMWIDTH = Horse.width;
     float CAMHEIGHT = Horse.height;
     float CAM_MIN_X = CAMWIDTH/2;
     float CAM_MIN_Y = CAMHEIGHT/2;
     float CAM_MAX_X, CAM_MAX_Y;
-
     float BG_REPEAT_X = 1, BG_REPEAT_Y = 1;
 
     public Screen(String backgroundRef) {
@@ -37,6 +38,13 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     protected abstract void updateCamera();
 
     public void resize(int width, int height) {
+        // update the 'global' window dimensions
+        cam.viewportHeight = height;
+        cam.viewportWidth = width;
+
+        // update the unit pixel size
+        unitSize = (float) height / (float) Horse.unitsAcross;
+
         updateCamera();
     }
 

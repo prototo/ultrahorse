@@ -22,6 +22,7 @@ public class BulletEntity extends Entity {
         velocity.x = speed * direction;
 
         setupAnimation();
+        setSize();
     }
 
     public void update(float delta) {

@@ -21,10 +21,6 @@ public class GameScreen extends Screen {
 
         player = new PlayerEntity(new Vector2(2, 2));
         map = Map.get();
-
-        BG_REPEAT_X = map.getPixelWidth() / background.getWidth();
-        BG_REPEAT_Y = map.getPixelHeight() / background.getHeight();
-        BG_REPEAT_Y += 1;
     }
 
     @Override
@@ -37,33 +33,38 @@ public class GameScreen extends Screen {
      * staying inside the map bounds
      */
     protected void updateCamera() {
-        float camx = player.position.x * map.ppux;
-        float camy = player.position.y * map.ppuy;
+        float x = player.position.x * unitSize;
+        float y = player.position.y * unitSize;
 
-        if (camx < CAM_MIN_X) {
-            camx = CAM_MIN_X;
+        if (x < CAM_MIN_X) {
+            x = CAM_MIN_X;
         }
-        if (camx > CAM_MAX_X) {
-            camx = CAM_MAX_X;
+        if (x > CAM_MAX_X) {
+            x = CAM_MAX_X;
         }
 
-        if (camy < CAM_MIN_Y) {
-            camy = CAM_MIN_Y;
+        if (y < CAM_MIN_Y) {
+            y = CAM_MIN_Y;
         }
-//        else if (camy > CAM_MAX_Y) {
-//            camy = CAM_MAX_Y;
-//        }
 
-        cam.position.x = camx;
-        cam.position.y = camy;
+        cam.position.x = x;
+        cam.position.y = y;
         cam.update();
     }
 
     @Override
     public void resize(int width, int height) {
-        map.setSize(width, height);
-        CAM_MAX_X = map.getPixelWidth() - CAM_MIN_X;
-        CAM_MAX_Y = map.getPixelHeight() - CAM_MIN_Y;
+        // update the unitSize, etc
+        super.resize(width, height);
+
+        float mapWidth = map.getPixelWidth(unitSize);
+        float mapHeight = map.getPixelHeight(unitSize);
+
+        CAM_MAX_X = mapWidth - CAM_MIN_X;
+        CAM_MAX_Y = mapHeight - CAM_MIN_Y;
+        BG_REPEAT_X = mapWidth / background.getWidth();
+        BG_REPEAT_Y = mapHeight / background.getHeight();
+        BG_REPEAT_Y += 1;
 
         // update camera!
         updateCamera();
@@ -71,12 +72,13 @@ public class GameScreen extends Screen {
 
     @Override
     protected void renderSprites() {
-        map.render(batch);
-        player.draw(batch);
+        map.render(batch, unitSize);
+        player.draw(batch, unitSize);
     }
 
     @Override
     protected void update(float delta) {
+        player.setSize();
         player.update(delta);
     }
 }

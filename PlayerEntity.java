@@ -50,14 +50,13 @@ public class PlayerEntity extends Entity implements InputProcessor {
         setupAnimations();
     }
 
-    public void draw(SpriteBatch batch) {
-        float ppux = Map.get().ppux;
-        float ppuy = Map.get().ppuy;
+    public void draw(SpriteBatch batch, float unitSize) {
+        TextureRegion texture = getTextureRegion();
 
-        batch.draw(getTextureRegion(), position.x * ppux, position.y * ppuy);
+        batch.draw(getTextureRegion(), position.x * unitSize, position.y * unitSize, bounds.getWidth() * unitSize, bounds.getHeight() * unitSize);
 
         for (BulletEntity bullet : bullets) {
-            batch.draw(bullet.getTextureRegion(), bullet.position.x * ppux, bullet.position.y * ppuy);
+            batch.draw(bullet.getTextureRegion(), bullet.position.x * unitSize, bullet.position.y * unitSize);
         }
     }
 
@@ -186,8 +185,12 @@ public class PlayerEntity extends Entity implements InputProcessor {
      */
     private void shoot() {
         Vector2 bulletPos = new Vector2();
-        bulletPos.set(position.x + size / 2, position.y + size / 2);
         int direction = facingLeft ? -1 : 1;
+        if (facingLeft) {
+            bulletPos.set(position.x, position.y + bounds.getHeight() / 2);
+        } else {
+            bulletPos.set(position.x + bounds.getWidth(), position.y + bounds.getHeight() / 2);
+        }
 
         BulletEntity bullet = new BulletEntity(bulletPos, direction);
         bullets.add(bullet);
