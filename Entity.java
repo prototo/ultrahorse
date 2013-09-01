@@ -149,11 +149,18 @@ public class Entity implements Drawable {
                     grounded = true;
                     jumpTimer = 0;
                     position.y = block.getTop();
+                } else {
+                    // hit the ceiling, stop jumping
+                    stopJump();
                 }
 
                 velocity.y = 0;
                 break;
             }
+        }
+
+        if (velocity.y != 0) {
+            grounded = false;
         }
     }
 
@@ -167,9 +174,6 @@ public class Entity implements Drawable {
                     collidable.add(block);
                 }
             }
-        }
-        for (Entity block : collidable) {
-            block.drawDebug(new ShapeRenderer());
         }
         return collidable;
     }

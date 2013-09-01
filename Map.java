@@ -13,7 +13,7 @@ public class Map implements Drawable {
     Entity[][] tiles;
 
     public Map() {
-        tiles = new Entity[20][20];
+        tiles = new Entity[50][50];
         populate();
     }
 
@@ -21,7 +21,7 @@ public class Map implements Drawable {
         Random r = new Random();
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles.length; y++) {
-                if (x == 0 || y == 0 || x == tiles.length - 1|| y == tiles.length - 1) {
+                if (r.nextInt(20) == 1 || x == 0 || y == 0 || x == tiles.length - 1|| y == tiles.length - 1) {
                     tiles[x][y] = (new Entity(x * tileSize, y * tileSize, tileSize, tileSize));
                 }
             }
