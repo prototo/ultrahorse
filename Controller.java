@@ -20,7 +20,7 @@ public class Controller implements InputProcessor {
         }
 
         if (i == Input.Keys.SPACE) {
-            entity.jump();
+            entity.movement.put("jump", true);
         }
 
         return false;
@@ -32,6 +32,10 @@ public class Controller implements InputProcessor {
             entity.movement.put("runLeft", false);
         } else if (i == Input.Keys.RIGHT) {
             entity.movement.put("runRight", false);
+        }
+
+        if (i == Input.Keys.SPACE) {
+            entity.movement.put("jump", false);
         }
 
         return false;

@@ -17,12 +17,15 @@ public class Entity implements Drawable {
     public HashMap<String, Boolean> movement = new HashMap<String, Boolean>();
 
     static final float GRAVITY = -15f;
-    static final float ANIMATION_FRAME_DURATION = 0.2f;
+    float ANIMATION_FRAME_DURATION = 0.2f;
+    float JUMP_TIMER = 0.3f;
 
     Vector2 position;
     Vector2 velocity;
     Rectangle bounds;
     float speed = 300f;
+    float jumpSpeed = 400f;
+    float jumpTimer = 0;
 
     boolean grounded = false;
     boolean facingLeft = false;
@@ -73,12 +76,23 @@ public class Entity implements Drawable {
     public void act(float delta) {
         stateTime += delta;
 
+        if (!grounded) {
+            jumpTimer += delta;
+
+            if (!movement.get("jump")) {
+                stopJump();
+            }
+        }
+
         velocity.x = 0;
         if (movement.get("runLeft")) {
             velocity.x = -speed;
         }
         if (movement.get("runRight")) {
             velocity.x = speed;
+        }
+        if (movement.get("jump")) {
+            jump();
         }
 
         if (velocity.x != 0) {
@@ -133,6 +147,7 @@ public class Entity implements Drawable {
             if (bounds.overlaps(block.bounds)) {
                 if (velocity.y < 0) {
                     grounded = true;
+                    jumpTimer = 0;
                     position.y = block.getTop();
                 }
 
@@ -200,9 +215,13 @@ public class Entity implements Drawable {
     }
 
     public void jump() {
-        if (grounded) {
+        if (jumpTimer < JUMP_TIMER) {
+            velocity.y = jumpSpeed;
             grounded = false;
-            velocity.y = 500f;
         }
+    }
+
+    public void stopJump() {
+        jumpTimer = JUMP_TIMER;
     }
 }
