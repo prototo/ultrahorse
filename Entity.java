@@ -92,76 +92,70 @@ public class Entity implements Drawable {
 
     public void update(float delta) {
         position.add(velocity.cpy().mul(delta));
+        bounds.set(getX(), getY(), getWidth(), getHeight());
     }
 
     protected void checkCollisions(float delta, Map map, ArrayList<Entity> entities) {
-        int direction;
-        Vector2 proposed;
+        Rectangle bounds = new Rectangle();
+        Vector2 vel = velocity.cpy().mul(delta);
+        ArrayList<Entity> collidable;
         float startX, endX, startY, endY;
-        Entity tile;
 
-        /**
-         * Do all the X checks
-         */
-        if (velocity.x != 0) {
-            direction = velocity.x > 0 ? 1 : -1;
-            proposed = position.cpy();
-            proposed.add(new Vector2(velocity.x, 0).mul(delta));
-            startX = direction > 0 ? getRight() : getX();
-            endX = direction > 0 ? proposed.x + getWidth() : proposed.x;
-            startY = proposed.y;
-            endY = proposed.y + getHeight();
+        // Check collisions on X axis
+        bounds.set(this.bounds);
 
-            do {
-                do {
-                    tile = map.collidesWith(startX, startY);
-                    if (tile != null) {
-                        if (direction > 0) {
-                            position.x = tile.getX() - getWidth() - 1;
-                        } else {
-                            position.x = tile.getRight() + 1;
-                        }
-                        velocity.x = 0;
-                        break;
-                    }
-                    startY += map.tileSize;
-                } while (startY < endY);
-                startX += map.tileSize * direction;
-            } while (direction > 0 ? startX < endX : startX > endX);
+        bounds.x += vel.x;
+        startY = bounds.getY();
+        endY = bounds.getY() + getHeight();
+        startX = vel.x > 0 ? bounds.getX() + bounds.getWidth() : bounds.getX();
+        endX = startX;
+
+        collidable = getCollidable(map, startX, endX, startY, endY);
+        for (Entity block : collidable) {
+            if (bounds.overlaps(block.bounds)) {
+                velocity.x = 0;
+                break;
+            }
         }
 
-        /**
-         * Do all the Y checks
-         */
-        if (velocity.y != 0) {
-            direction = velocity.y > 0 ? 1 : -1;
-            proposed = position.cpy();
-            proposed.add(new Vector2(0, velocity.y).mul(delta));
-            startX = proposed.x;
-            endX = proposed.x + getWidth();
-            startY = direction > 0 ? getTop() : getY();
-            endY = direction > 0 ? proposed.y + getHeight() : proposed.y;
+        // Check collisions on Y axis
+        bounds.set(this.bounds);
 
-            do {
-                do {
-                    tile = map.collidesWith(startX, startY);
-                    if (tile != null) {
-                        if (direction > 0) {
-                            position.y = tile.getY() - getHeight() - 1;
-                        } else {
-                            position.y = tile.getTop() + 1;
-                            grounded = true;
-                        }
-                        velocity.y = 0;
-                        break;
-                    }
-                    startX += map.tileSize;
-                } while (startX < endX);
-                startY += map.tileSize * direction;
-            } while (direction > 0 ? startY < endY : startY > endY);
+        bounds.y += vel.y;
+        startX = bounds.getX();
+        endX = bounds.getX() + getWidth();
+        startY = vel.y > 0 ? bounds.getY() + bounds.getHeight() : bounds.getY();
+        endY = startY;
+
+        collidable = getCollidable(map, startX, endX, startY, endY);
+        for (Entity block : collidable) {
+            if (bounds.overlaps(block.bounds)) {
+                if (velocity.y < 0) {
+                    grounded = true;
+                    position.y = block.getTop() + 0.1f;
+                }
+
+                velocity.y = 0;
+                break;
+            }
         }
+    }
 
-        // TODO: COLLIDE WITH OTHER ENTITIES
+    private ArrayList<Entity> getCollidable(Map map, float startX, float endX, float startY, float endY) {
+        ArrayList<Entity> collidable = new ArrayList<Entity>();
+        for (float x = startX; x <= endX; x += map.tileSize) {
+            for (float y = startY; y <= endY; y += map.tileSize) {
+                Entity block = map.collidesWith(x, y);
+
+                if (block != null) {
+                    collidable.add(block);
+                }
+            }
+        }
+        for (Entity block : collidable) {
+            block.drawDebug(new ShapeRenderer());
+        }
+        return collidable;
     }
 
     protected Animation setupAnimation(TextureAtlas atlas, String refs[], boolean flip) {
@@ -194,6 +188,7 @@ public class Entity implements Drawable {
     public void draw(SpriteBatch batch) {
         TextureRegion region = getTextureRegion();
         bounds.setWidth(region.getRegionWidth());
+        bounds.setHeight(region.getRegionHeight());
         batch.draw(region, getX(), getY(), getWidth(), getHeight());
     }
 
