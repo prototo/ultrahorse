@@ -1,16 +1,14 @@
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 
+/**
+ * Main class, doin' its shit
+ */
 public class Horse {
-    public static final String gameTitle = "Horse Mage Simulator 2013";
+    private static final String TITLE = "HORSE";
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
 
-    public static int width = 800;
-    public static int height = 600;
-    public static int unitsAcross = 20;
-    public static float baseUnitSize = height / unitsAcross;
-
-    public static void main(String []args) {
-        new LwjglApplication(
-            new GDXGame(), gameTitle, width, height, false
-        );
+    public static void main (String []args) {
+        new LwjglApplication(new HorseGame(WIDTH, HEIGHT), TITLE, WIDTH, HEIGHT, false);
     }
 }

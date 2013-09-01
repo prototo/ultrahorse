@@ -1,90 +1,66 @@
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.ArrayList;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Scaling;
 
 /**
- * Created by greg on 23/08/13.
+ * General screen stuff that can be shared
  */
-public abstract class Screen implements com.badlogic.gdx.Screen {
-    protected SpriteBatch batch = new SpriteBatch();
+public abstract class Screen implements com.badlogic.gdx.Screen{
+    private int width, height;
     protected OrthographicCamera cam;
-    protected Texture background;
+    protected Vector2 center;
+    protected SpriteBatch batch;
+    protected ShapeRenderer debug;
 
-    public static float unitSize;
+    protected abstract void gameStep(float delta);
 
-    float CAMWIDTH = Horse.width;
-    float CAMHEIGHT = Horse.height;
-    float CAM_MIN_X = CAMWIDTH/2;
-    float CAM_MIN_Y = CAMHEIGHT/2;
-    float CAM_MAX_X, CAM_MAX_Y;
-    float BG_REPEAT_X = 1, BG_REPEAT_Y = 1;
-
-    public Screen(String backgroundRef) {
-        cam = new OrthographicCamera(CAMWIDTH, CAMHEIGHT);
-        background = new Texture(backgroundRef);
-        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+    public Screen(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.center = new Vector2(0, 0);
     }
 
-    /**
-     * Update the camera position to focus on the player entity
-     * staying inside the map bounds
-     */
-    protected abstract void updateCamera();
-
-    public void resize(int width, int height) {
-        // update the 'global' window dimensions
-        cam.viewportHeight = height;
-        cam.viewportWidth = width;
-
-        // update the unit pixel size
-        unitSize = (float) height / (float) Horse.unitsAcross;
-
-        updateCamera();
-    }
-
-    protected abstract void renderSprites();
-    protected abstract void update(float delta);
-
+    @Override
     public void render(float delta) {
-        update(delta);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        GL10 gl = Gdx.graphics.getGL10();
-
-        gl.glClearColor(0, 0, 0, 0);
-        gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-        updateCamera();
+        gameStep(delta);
+        cam.update();
         batch.setProjectionMatrix(cam.combined);
-
-        // render the background slightly behind for parallax
-        float parallax = cam.position.x - CAM_MIN_X;
-        parallax *= 0.8;
-
-        batch.begin();
-
-            // draw the background
-            batch.draw(
-                    background, parallax, 0,
-                    background.getWidth() * BG_REPEAT_X, background.getHeight() * BG_REPEAT_Y,
-                    0, BG_REPEAT_Y, BG_REPEAT_X, 0
-            );
-
-            // draw everything else
-            renderSprites();
-
-        batch.end();
+        debug.setProjectionMatrix(cam.combined);
     }
 
+    @Override
+    public void resize(int width, int height) {
+        Vector2 size = Scaling.fit.apply(this.width, this.height, width, height);
+        int viewportX = (int) (width - size.x) / 2;
+        int viewportY = (int) (height - size.y) / 2;
+        int viewportWidth = (int) size.x;
+        int viewportHeight = (int) size.y;
+        float zoom = width < viewportWidth ?
+                    (float) this.height / viewportHeight :
+                    (float) this.width / viewportWidth;
+
+        Gdx.gl.glViewport(viewportX, viewportY, viewportWidth, viewportHeight);
+        cam.position.set(center.x, center.y, 0);
+        cam.zoom = zoom;
+        cam.viewportWidth = viewportWidth;
+        cam.viewportHeight = viewportHeight;
+    }
 
     @Override
     public void show() {
-
+        this.cam = new OrthographicCamera(width, height);
+        this.batch = new SpriteBatch();
+        this.debug = new ShapeRenderer();
     }
 
     @Override

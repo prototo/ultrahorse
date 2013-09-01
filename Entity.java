@@ -1,151 +1,212 @@
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
-public abstract class Entity {
-    protected double x;
-    protected double y;
+public class Entity implements Drawable {
+    private enum State { IDLE, RUNNING };
+    public HashMap<String, Boolean> movement = new HashMap<String, Boolean>();
 
-    protected final float RUNNING_FRAME_DURATION = 0.25f;
-    protected float stateTime = 0;
+    static final float GRAVITY = -15f;
+    static final float ANIMATION_FRAME_DURATION = 0.25f;
 
-    public enum Facing {
-        LEFT, RIGHT
-    }
+    Vector2 position;
+    Vector2 velocity;
+    Rectangle bounds;
+    float speed = 300f;
 
-    protected Texture texture;
-    float speed = 1f;
-
-    Vector2 position = new Vector2();
-    Vector2 acceleration = new Vector2();
-    Vector2 velocity = new Vector2();
-
-    Rectangle bounds = new Rectangle();
-    Facing facing = Facing.RIGHT;
     boolean grounded = false;
+    boolean facingLeft = false;
+    State state = State.IDLE;
+    float stateTime = 0;
 
-    public Entity(String ref, Vector2 position) {
-        this.position = position;
+    Animation idleRight, idleLeft, runRight, runLeft;
 
-        this.texture = new Texture(ref);
-        this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+    Random r = new Random();
+    Color debugColor = new Color(0.25f + r.nextFloat(), 0.25f + r.nextFloat(), 0.25f + r.nextFloat(), 1);
 
-        setRect();
+    public Entity(float x, float y, float width, float height) {
+        position = new Vector2(x, y);
+        velocity = new Vector2(300, 0);
+        bounds = new Rectangle();
+        bounds.set(position.x, position.y, width, height);
+
+        // initialise movement hashmap
+        movement.put("runLeft", false);
+        movement.put("runRight", false);
+        movement.put("jump", false);
     }
 
-    protected void setSize() {
-        try {
-            TextureRegion texture = getTextureRegion();
-            bounds.setWidth(texture.getRegionWidth() / Horse.baseUnitSize);
-            bounds.setHeight(texture.getRegionHeight() / Horse.baseUnitSize);
-        } catch (Exception e) {
-            bounds.setWidth(texture.getWidth() / Horse.baseUnitSize);
-            bounds.setHeight(texture.getHeight() / Horse.baseUnitSize);
+    public float getX() {
+        return position.x;
+    }
+
+    public float getY() {
+        return position.y;
+    }
+
+    public float getTop() {
+        return getY() + getHeight();
+    }
+
+    public float getRight() {
+        return getX() + getWidth();
+    }
+
+    public float getWidth() {
+        return bounds.getWidth();
+    }
+
+    public float getHeight() {
+        return bounds.getHeight();
+    }
+
+    public void act(float delta) {
+        stateTime += delta;
+
+        velocity.x = 0;
+        if (movement.get("runLeft")) {
+            velocity.x = -speed;
         }
-    }
+        if (movement.get("runRight")) {
+            velocity.x = speed;
+        }
 
-    protected abstract TextureRegion getTextureRegion();
+        if (velocity.x != 0) {
+            state = State.RUNNING;
+            facingLeft = velocity.x < 0;
+        } else {
+            state = State.IDLE;
+        }
 
-    protected void setRect() {
-        bounds.x = position.x;
-        bounds.y = position.y;
-    }
-
-    public Texture getTexture() {
-        return this.texture;
+        velocity.y += GRAVITY;
     }
 
     public void update(float delta) {
-        checkCollisions(delta);
         position.add(velocity.cpy().mul(delta));
-        setRect();
     }
 
-    protected void checkCollisions(float delta) {
-        Vector2 vel = velocity.cpy().mul(delta);
-        int startX, endX, startY, endY;
+    protected void checkCollisions(float delta, Map map, ArrayList<Entity> entities) {
+        int direction;
+        Vector2 proposed;
+        float startX, endX, startY, endY;
+        Entity tile;
 
-        // new rectangle to simulate movement on
-        Rectangle bounds = new Rectangle();
-        bounds.set(this.bounds);
+        /**
+         * Do all the X checks
+         */
+        if (velocity.x != 0) {
+            direction = velocity.x > 0 ? 1 : -1;
+            proposed = position.cpy();
+            proposed.add(new Vector2(velocity.x, 0).mul(delta));
+            startX = direction > 0 ? getRight() : getX();
+            endX = direction > 0 ? proposed.x + getWidth() : proposed.x;
+            startY = proposed.y;
+            endY = proposed.y + getHeight();
 
-        // Check collisions on x axis
-        startY = (int) bounds.getY();
-        endY = (int) (bounds.getY() + bounds.getHeight());
+            do {
+                do {
+                    tile = map.collidesWith(startX, startY);
+                    if (tile != null) {
+                        if (direction > 0) {
+                            position.x = tile.getX() - getWidth() - 1;
+                        } else {
+                            position.x = tile.getRight() + 1;
+                        }
+                        velocity.x = 0;
+                        break;
+                    }
+                    startY += map.tileSize;
+                } while (startY < endY);
+                startX += map.tileSize * direction;
+            } while (direction > 0 ? startX < endX : startX > endX);
+        }
 
-        if (vel.x < 0) {
-            startX = endX = (int) Math.floor(bounds.getX() + vel.x);
+        /**
+         * Do all the Y checks
+         */
+        if (velocity.y != 0) {
+            direction = velocity.y > 0 ? 1 : -1;
+            proposed = position.cpy();
+            proposed.add(new Vector2(0, velocity.y).mul(delta));
+            startX = proposed.x;
+            endX = proposed.x + getWidth();
+            startY = direction > 0 ? getTop() : getY();
+            endY = direction > 0 ? proposed.y + getHeight() : proposed.y;
+
+            do {
+                do {
+                    tile = map.collidesWith(startX, startY);
+                    if (tile != null) {
+                        if (direction > 0) {
+                            position.y = tile.getY() - getHeight() - 1;
+                        } else {
+                            position.y = tile.getTop() + 1;
+                            grounded = true;
+                        }
+                        velocity.y = 0;
+                        break;
+                    }
+                    startX += map.tileSize;
+                } while (startX < endX);
+                startY += map.tileSize * direction;
+            } while (direction > 0 ? startY < endY : startY > endY);
+        }
+
+        // TODO: COLLIDE WITH OTHER ENTITIES
+    }
+
+    protected Animation setupAnimation(TextureAtlas atlas, String refs[], boolean flip) {
+        Animation animation;
+
+        TextureRegion frames[] = new TextureRegion[refs.length];
+        for (int i = 0; i < refs.length; i++) {
+            frames[i] = atlas.findRegion(refs[i]);
+            if (flip) {
+                frames[i].flip(true, false);
+            }
+        }
+        animation = new Animation(ANIMATION_FRAME_DURATION, frames);
+
+        return animation;
+    }
+
+    protected TextureRegion getTextureRegion() {
+        Animation animation;
+
+        if (state == State.RUNNING) {
+            animation = facingLeft ? runLeft : runRight;
         } else {
-            startX = endX = (int) Math.floor(bounds.getX() + vel.x + bounds.getWidth());
+            animation = facingLeft ? idleLeft : idleRight;
         }
 
-        // move on x
-        bounds.x += vel.x;
-
-        ArrayList<BlockEntity> collidable = getCollidable(startX, endX, startY, endY);
-        for (BlockEntity block : collidable) {
-            if (bounds.overlaps(block.bounds)) {
-                velocity.x = 0;
-                break;
-            }
-        }
-
-        // reset x
-        bounds.x = this.bounds.x;
-
-        // Check collisions on Y axis
-        startX = (int) bounds.getX();
-        endX = (int) (bounds.getX() + bounds.getWidth());
-
-        if (vel.y < 0) {
-            startY = endY = (int) Math.floor(bounds.getY() + vel.y);
-        } else {
-            startY = endY = (int) Math.floor(bounds.getY() + vel.y + bounds.getHeight());
-        }
-
-        // move on y
-        bounds.y += vel.y;
-
-        collidable = getCollidable(startX, endX, startY, endY);
-        for (BlockEntity block : collidable) {
-            if (bounds.overlaps(block.bounds)) {
-                if (velocity.y < 0) {
-                    grounded = true;
-                    position.y = block.bounds.y + block.bounds.getHeight() * 1.01f;
-                }
-
-                velocity.y = 0;
-                break;
-            }
-        }
-
-        // WE DONE HERE.
+        return animation.getKeyFrame(stateTime, true);
     }
 
-    public float getActualHeight() {
-        return bounds.getHeight() * Screen.unitSize;
+    public void draw(SpriteBatch batch) {
+        TextureRegion region = getTextureRegion();
+        bounds.setWidth(region.getRegionWidth());
+        batch.draw(region, getX(), getY(), getWidth(), getHeight());
     }
 
-    public float getActualWidth() {
-        return bounds.getWidth() * Screen.unitSize;
+    @Override
+    public void drawDebug(ShapeRenderer debug) {
+        debug.setColor(debugColor);
+        debug.begin(ShapeRenderer.ShapeType.Rectangle);
+        debug.rect(getX(), getY(), getWidth(), getHeight());
+        debug.end();
     }
 
-    private ArrayList<BlockEntity> getCollidable(int sx, int ex, int sy, int ey) {
-        ArrayList<BlockEntity> collidable = new ArrayList<BlockEntity>();
-
-        for (int x = sx; x <= ex; x++) {
-            for (int y = sy; y <= ey; y++) {
-                BlockEntity block = Map.get().getBlock(x, y);
-                if (block != null) {
-                    collidable.add(block);
-                }
-            }
-        }
-
-        return collidable;
+    public void jump() {
+        grounded = false;
+        velocity.y = 500f;
     }
 }

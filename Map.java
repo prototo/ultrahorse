@@ -1,131 +1,60 @@
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
- * The Map loader and renderer class
+ * Map class bitches
  */
-public class Map {
-    private static Map map = new Map();
+public class Map implements Drawable {
 
-    private int[][] tiles;
-    private BlockEntity[][] blocks;
-    public int tilesX, tilesY;
+    public final float tileSize = 32;
+    Entity[][] tiles;
 
     public Map() {
-        /**
-         * TODO: MAP GENERATOR AND MAP FILE READER
-         */
-
-        tiles = new int[][] {
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        };
-
-        tilesY = tiles.length;
-        tilesX = tiles[0].length;
-        blocks = getMap();
+        tiles = new Entity[20][20];
+        populate();
     }
 
-    public static Map get() {
-        return map;
-    }
-
-    public float getPixelWidth(float unitSize) {
-        return tilesX * unitSize;
-    }
-
-    public float getPixelHeight(float unitSize) {
-        return tilesY * unitSize;
-    }
-
-    /**
-     * Draw all the tiles in the loaded map
-     *
-     * @param batch SpriteBatch for the drawing        bounds.setWidth(1);
-
-     * @param unitSize pixels per unit
-     */
-    ShapeRenderer sr = new ShapeRenderer();
-    public void render(SpriteBatch batch, float unitSize) {
-        for (int x = 0; x < tilesX; x++) {
-            for (int y = 0; y < tilesY; y++) {
-                BlockEntity block = getBlock(x, y);
-
-                if (block != null) {
-                    float bw = block.bounds.width * unitSize;
-                    float bh = block.bounds.height * unitSize;
-                    float bx = block.position.x * bw;
-                    float by = block.position.y * bh;
-
-                    batch.draw(block.getTexture(), bx, by, bw, bh);
+    private void populate() {
+        Random r = new Random();
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles.length; y++) {
+                if (r.nextInt(10) == 5 || x == 0 || y == 0 || x == tiles.length - 1|| y == tiles.length - 1) {
+                    tiles[x][y] = (new Entity(x * tileSize, y * tileSize, tileSize, tileSize));
                 }
             }
         }
     }
 
-    /**
-     * Get the value of tile in the loaded map file
-     *
-     * @param x
-     * @param y
-     * @return int representation of the map tile
-     */
-    public int getTile(int x, int y) {
+    public Entity getTile(int x, int y) {
         try {
-            return tiles[y][x];
-        } catch (Exception e) {
-            return 1;
-        }
-    }
-
-    /**
-     * Build and return an array of BlockEntitys that represent the loaded map
-     *
-     * @return BlockEntity array
-     */
-    public BlockEntity[][] getMap() {
-        BlockEntity[][] blocks = new BlockEntity[tilesX][tilesY];
-
-        for (int x = 0; x < tilesX; x++) {
-            for (int y = 0; y < tilesY; y++) {
-                if (getTile(x, y) == 1) {
-                    BlockEntity block = new BlockEntity(new Vector2(x, y));
-                    blocks[x][y] = block;
-                }
-            }
-        }
-
-        return blocks;
-    }
-
-    /**
-     * Get a single BlockEntity from the generate map array
-     *
-     * @param x
-     * @param y
-     * @return The BlockEntity
-     */
-    public BlockEntity getBlock(int x, int y) {
-        try {
-            return blocks[x][y];
+            return tiles[x][y];
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public Entity collidesWith(float x, float y) {
+        int tileX = (int) Math.floor(x / tileSize);
+        int tileY = (int) Math.floor(y / tileSize);
+        return getTile(tileX, tileY);
+    }
+
+    @Override
+    public void draw(SpriteBatch batch) {
+
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer debug) {
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles.length; y++) {
+                if (getTile(x, y) != null) {
+                    getTile(x, y).drawDebug(debug);
+                }
+            }
         }
     }
 }
