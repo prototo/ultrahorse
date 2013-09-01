@@ -1,3 +1,4 @@
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,7 +17,7 @@ public class Entity implements Drawable {
     public HashMap<String, Boolean> movement = new HashMap<String, Boolean>();
 
     static final float GRAVITY = -15f;
-    static final float ANIMATION_FRAME_DURATION = 0.25f;
+    static final float ANIMATION_FRAME_DURATION = 0.2f;
 
     Vector2 position;
     Vector2 velocity;
@@ -132,7 +133,7 @@ public class Entity implements Drawable {
             if (bounds.overlaps(block.bounds)) {
                 if (velocity.y < 0) {
                     grounded = true;
-                    position.y = block.getTop() + 0.1f;
+                    position.y = block.getTop();
                 }
 
                 velocity.y = 0;
@@ -143,8 +144,8 @@ public class Entity implements Drawable {
 
     private ArrayList<Entity> getCollidable(Map map, float startX, float endX, float startY, float endY) {
         ArrayList<Entity> collidable = new ArrayList<Entity>();
-        for (float x = startX; x <= endX; x += map.tileSize) {
-            for (float y = startY; y <= endY; y += map.tileSize) {
+        for (float x = startX; x <= endX; x += getWidth() / 2) {
+            for (float y = startY; y <= endY; y += getHeight() / 3) {
                 Entity block = map.collidesWith(x, y);
 
                 if (block != null) {
@@ -163,10 +164,8 @@ public class Entity implements Drawable {
 
         TextureRegion frames[] = new TextureRegion[refs.length];
         for (int i = 0; i < refs.length; i++) {
-            frames[i] = atlas.findRegion(refs[i]);
-            if (flip) {
-                frames[i].flip(true, false);
-            }
+            frames[i] = new TextureRegion(atlas.findRegion(refs[i]));
+            frames[i].flip(flip, false);
         }
         animation = new Animation(ANIMATION_FRAME_DURATION, frames);
 
@@ -201,7 +200,9 @@ public class Entity implements Drawable {
     }
 
     public void jump() {
-        grounded = false;
-        velocity.y = 500f;
+        if (grounded) {
+            grounded = false;
+            velocity.y = 500f;
+        }
     }
 }

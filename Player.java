@@ -14,9 +14,5 @@ public class Player extends Entity {
         idleRight = setupAnimation(atlas, new String[]{"standing-0"}, false);
         runLeft = setupAnimation(atlas, new String[]{"running-0", "standing-0", "running-1", "standing-0"}, true);
         runRight = setupAnimation(atlas, new String[]{"running-0", "standing-0", "running-1", "standing-0"}, false);
-
-        TextureRegion region = getTextureRegion();
-        bounds.setWidth(region.getRegionWidth());
-        bounds.setHeight(region.getRegionHeight());
     }
 }

@@ -38,7 +38,7 @@ public class GameScreen extends Screen {
         player.draw(batch);
         batch.end();
 
-//        player.drawDebug(debug);
+        player.drawDebug(debug);
         map.drawDebug(debug);
     }
 }
