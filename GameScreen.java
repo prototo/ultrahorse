@@ -3,6 +3,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class GameScreen extends Screen {
     Map map;
@@ -10,6 +14,8 @@ public class GameScreen extends Screen {
     Controller controller;
     Texture background;
     Collider collide;
+
+    ArrayList<Item> items = new ArrayList<Item>();
 
     public GameScreen(int width, int height) {
         super(width, height);
@@ -27,13 +33,50 @@ public class GameScreen extends Screen {
         Gdx.input.setInputProcessor(controller);
     }
 
+    private void setCameraPosition() {
+        // center camera on player center
+        float camX = player.getCenterX();
+        float camY = player.getCenterY();
+
+        // clip camera to map edges
+        if (camX < cam.viewportWidth / 2) {
+            camX = cam.viewportWidth / 2;
+        } else if (camX > map.getWidth() - cam.viewportWidth / 2) {
+            camX = map.getWidth() - cam.viewportWidth / 2;
+        }
+        if (camY < cam.viewportHeight / 2) {
+            camY = cam.viewportHeight / 2;
+        } else if (camY > map.getHeight() - cam.viewportHeight / 2) {
+            camY = map.getHeight() - cam.viewportHeight / 2;
+        }
+
+        cam.position.set(camX, camY, 0);
+    }
+
     @Override
     protected void gameStep(float delta) {
         player.act(delta);
         collide.withMap(player, delta);
         player.update(delta);
 
-        cam.position.set(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0);
+        // deal with all the items
+        for (int i = items.size() - 1; i >= 0; i--) {
+            Item item = items.get(i);
+            if (item.remove) {
+                items.remove(item);
+            } else {
+                item.act(delta);
+                collide.withMap(item, delta);
+                item.update(delta);
+            }
+        }
+        if (new Random().nextInt(10) == 1) {
+            Item item = new Item(player.getCenterX(), player.getCenterY(), 16, 16);
+            item.randomVelocity().setBouncey(true).setExpire(true); // SUGAR
+            items.add(item);
+        }
+
+        setCameraPosition();
     }
 
     @Override
@@ -46,9 +89,18 @@ public class GameScreen extends Screen {
         batch.begin();
         batch.draw(background, -512 + parallax, -512, background.getWidth() * repeat, background.getHeight() * repeat, 0, repeat, repeat, 0);
         player.draw(batch);
+
+//        for (Item item : items) {
+//            item.draw(batch);
+//        }
+
         batch.end();
 
         player.drawDebug(debug);
         map.drawDebug(debug);
+
+        for (Item item : items) {
+            item.drawDebug(debug);
+        }
     }
 }

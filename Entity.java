@@ -20,6 +20,8 @@ public class Entity implements Drawable {
     float ANIMATION_FRAME_DURATION = 0.2f;
     float JUMP_TIMER = 0.3f;
 
+    protected boolean CONTROLLED = false;
+
     Vector2 position;
     Vector2 velocity;
     Rectangle bounds;
@@ -39,7 +41,7 @@ public class Entity implements Drawable {
 
     public Entity(float x, float y, float width, float height) {
         position = new Vector2(x, y);
-        velocity = new Vector2(300, 0);
+        velocity = new Vector2(0, 0);
         bounds = new Rectangle();
         bounds.set(position.x, position.y, width, height);
 
@@ -73,6 +75,18 @@ public class Entity implements Drawable {
         return bounds.getHeight();
     }
 
+    public float getCenterX() {
+        return getX() + getWidth() / 2;
+    }
+
+    public float getCenterY() {
+        return getY() + getHeight() / 2;
+    }
+
+    public Vector2 getCenter() {
+        return new Vector2(getCenterX(), getCenterY());
+    }
+
     public void act(float delta) {
         stateTime += delta;
 
@@ -84,7 +98,10 @@ public class Entity implements Drawable {
             }
         }
 
-        velocity.x = 0;
+        if (CONTROLLED) {
+            velocity.x = 0;
+        }
+
         if (movement.get("runLeft")) {
             velocity.x = -speed;
         }
@@ -203,5 +220,9 @@ public class Entity implements Drawable {
 
             velocity.y = 0;
         }
+    }
+
+    public void setControlled(boolean controlled) {
+        this.CONTROLLED = controlled;
     }
 }

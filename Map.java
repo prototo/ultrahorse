@@ -17,6 +17,14 @@ public class Map implements Drawable {
         populate();
     }
 
+    public float getWidth() {
+        return tiles.length * tileSize;
+    }
+
+    public float getHeight() {
+        return tiles[0].length * tileSize;
+    }
+
     private void populate() {
         Random r = new Random();
         for (int x = 0; x < tiles.length; x++) {

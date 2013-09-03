@@ -9,6 +9,8 @@ public class Controller implements InputProcessor {
 
     public Controller(Entity entity) {
         this.entity = entity;
+
+        this.entity.setControlled(true);
     }
 
     @Override
