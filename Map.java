@@ -10,10 +10,10 @@ import java.util.Random;
 public class Map implements Drawable {
 
     public final float tileSize = 32;
-    Entity[][] tiles;
+    Block[][] tiles;
 
     public Map() {
-        tiles = new Entity[50][50];
+        tiles = new Block[50][50];
         populate();
     }
 
@@ -22,13 +22,13 @@ public class Map implements Drawable {
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles.length; y++) {
                 if (r.nextInt(20) == 1 || x == 0 || y == 0 || x == tiles.length - 1|| y == tiles.length - 1) {
-                    tiles[x][y] = (new Entity(x * tileSize, y * tileSize, tileSize, tileSize));
+                    tiles[x][y] = (new Block(x * tileSize, y * tileSize, tileSize, tileSize));
                 }
             }
         }
     }
 
-    public Entity getTile(int x, int y) {
+    public Block getTile(int x, int y) {
         try {
             return tiles[x][y];
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class Map implements Drawable {
         }
     }
 
-    public Entity collidesWith(float x, float y) {
+    public Block collidesWith(float x, float y) {
         int tileX = (int) Math.floor(x / tileSize);
         int tileY = (int) Math.floor(y / tileSize);
         return getTile(tileX, tileY);

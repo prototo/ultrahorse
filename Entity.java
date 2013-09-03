@@ -110,80 +110,6 @@ public class Entity implements Drawable {
         bounds.set(getX(), getY(), getWidth(), getHeight());
     }
 
-    protected void checkCollisions(float delta, Map map, ArrayList<Entity> entities) {
-        Rectangle bounds = new Rectangle();
-        Vector2 vel = velocity.cpy().mul(delta);
-        ArrayList<Entity> collidable;
-        float startX, endX, startY, endY;
-
-        // Check collisions on X axis
-        bounds.set(this.bounds);
-
-        bounds.x += vel.x;
-        startY = bounds.getY();
-        endY = bounds.getY() + getHeight();
-        startX = vel.x > 0 ? bounds.getX() + bounds.getWidth() : bounds.getX();
-        endX = startX;
-
-        collidable = getCollidable(map, startX, endX, startY, endY);
-        for (Entity block : collidable) {
-            if (bounds.overlaps(block.bounds)) {
-                if (velocity.x > 0) {
-                    position.x = block.getX() - getWidth() - 1;
-                } else {
-                    position.x = block.getRight() + 1;
-                }
-
-                velocity.x = 0;
-                break;
-            }
-        }
-
-        // Check collisions on Y axis
-        bounds.set(this.bounds);
-
-        bounds.y += vel.y;
-        startX = bounds.getX();
-        endX = bounds.getX() + getWidth();
-        startY = vel.y > 0 ? bounds.getY() + bounds.getHeight() : bounds.getY();
-        endY = startY;
-
-        collidable = getCollidable(map, startX, endX, startY, endY);
-        for (Entity block : collidable) {
-            if (bounds.overlaps(block.bounds)) {
-                if (velocity.y < 0) {
-                    grounded = true;
-                    jumpTimer = 0;
-                    position.y = block.getTop();
-                } else {
-                    // hit the ceiling, stop jumping
-                    stopJump();
-                }
-
-                velocity.y = 0;
-                break;
-            }
-        }
-
-        if (velocity.y != 0) {
-            grounded = false;
-        }
-    }
-
-    private ArrayList<Entity> getCollidable(Map map, float startX, float endX, float startY, float endY) {
-        ArrayList<Entity> collidable = new ArrayList<Entity>();
-        for (float x = startX; x <= endX; x += getWidth() / 2) {
-            for (float y = startY; y <= endY; y += getHeight() / 3) {
-                Entity block = map.collidesWith(x, y);
-
-                if (block != null) {
-                    collidable.add(block);
-                }
-            }
-        }
-        return collidable;
-    }
-
     protected Animation setupAnimation(TextureAtlas atlas, String refs[], boolean flip) {
         Animation animation;
 
@@ -233,5 +159,49 @@ public class Entity implements Drawable {
 
     public void stopJump() {
         jumpTimer = JUMP_TIMER;
+    }
+
+    /**
+     * Collider methods
+     */
+    public void onCollide(Object o) {
+
+    }
+
+    public void onCollide(Entity e) {
+
+    }
+
+    /**
+     * What to do when colliding with a map tile block
+     *
+     * @param b
+     * @param onX
+     * @param onY
+     */
+    public void onCollide(Block b, boolean onX, boolean onY) {
+        if (onX) {
+            if (velocity.x > 0) {
+                position.x = b.getX() - getWidth() - 1;
+            } else {
+                position.x = b.getRight() + 1;
+            }
+
+            velocity.x = 0;
+        }
+
+        if (onY) {
+            if (velocity.y < 0) {
+                grounded = true;
+                jumpTimer = 0;
+                position.y = b.getTop();
+            } else {
+                // hit the ceiling, stop jumping
+                stopJump();
+                position.y = b.getY() - getHeight() - 1;
+            }
+
+            velocity.y = 0;
+        }
     }
 }

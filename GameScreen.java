@@ -9,6 +9,7 @@ public class GameScreen extends Screen {
     Player player;
     Controller controller;
     Texture background;
+    Collider collide;
 
     public GameScreen(int width, int height) {
         super(width, height);
@@ -19,6 +20,7 @@ public class GameScreen extends Screen {
         map = new Map();
         player = new Player();
         controller = new Controller(player);
+        collide = new Collider(map);
         background = new Texture(Gdx.files.internal("sprites/stars.png"));
         background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
@@ -28,7 +30,7 @@ public class GameScreen extends Screen {
     @Override
     protected void gameStep(float delta) {
         player.act(delta);
-        player.checkCollisions(delta, map, null);
+        collide.withMap(player, delta);
         player.update(delta);
 
         cam.position.set(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0);
