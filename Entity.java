@@ -37,7 +37,7 @@ public class Entity implements Drawable {
     Animation idleRight, idleLeft, runRight, runLeft;
 
     Random r = new Random();
-    Color debugColor = new Color(0.25f + r.nextFloat(), 0.25f + r.nextFloat(), 0.25f + r.nextFloat(), 1);
+    Color debugColor = new Color(0.05f + r.nextFloat(), 0.05f + r.nextFloat(), 0.05f + r.nextFloat(), 1);
 
     public Entity(float x, float y, float width, float height) {
         position = new Vector2(x, y);

@@ -70,11 +70,11 @@ public class GameScreen extends Screen {
                 item.update(delta);
             }
         }
-        if (new Random().nextInt(10) == 1) {
+//        if (new Random().nextInt(10) == 1) {
             Item item = new Item(player.getCenterX(), player.getCenterY(), 16, 16);
             item.randomVelocity().setBouncey(true).setExpire(true); // SUGAR
             items.add(item);
-        }
+//        }
 
         setCameraPosition();
     }
@@ -88,19 +88,21 @@ public class GameScreen extends Screen {
 
         batch.begin();
         batch.draw(background, -512 + parallax, -512, background.getWidth() * repeat, background.getHeight() * repeat, 0, repeat, repeat, 0);
-        player.draw(batch);
-
-//        for (Item item : items) {
-//            item.draw(batch);
-//        }
-
         batch.end();
 
+        // DEBUG
         player.drawDebug(debug);
         map.drawDebug(debug);
-
         for (Item item : items) {
             item.drawDebug(debug);
         }
+        // DEBUG
+
+        batch.begin();
+        player.draw(batch);
+//        for (Item item : items) {
+//            item.draw(batch);
+//        }
+        batch.end();
     }
 }
