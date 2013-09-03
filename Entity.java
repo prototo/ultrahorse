@@ -128,6 +128,12 @@ public class Entity implements Drawable {
         collidable = getCollidable(map, startX, endX, startY, endY);
         for (Entity block : collidable) {
             if (bounds.overlaps(block.bounds)) {
+                if (velocity.x > 0) {
+                    position.x = block.getX() - getWidth() - 1;
+                } else {
+                    position.x = block.getRight() + 1;
+                }
+
                 velocity.x = 0;
                 break;
             }
