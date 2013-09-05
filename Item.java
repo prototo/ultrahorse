@@ -1,3 +1,4 @@
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.Random;
@@ -80,7 +81,7 @@ public class Item extends Entity {
         super.act(delta);
         velocity.x *= FRICTION;
 
-        if (Math.abs(velocity.x * delta) < 1) {
+        if (Math.abs(velocity.x * delta) < 0.1) {
             velocity.x = 0;
         }
 
@@ -92,7 +93,7 @@ public class Item extends Entity {
     /**
      * Mark this item for removal in the next game step
      */
-    private void markForRemoval() {
+    protected void markForRemoval() {
         this.remove = true;
     }
 
@@ -100,6 +101,11 @@ public class Item extends Entity {
         debug.begin(ShapeRenderer.ShapeType.FilledCircle);
         debug.setColor(debugColor);
         debug.filledCircle(getCenterX(), getCenterY(), getWidth() / 2);
+        debug.end();
+
+        debug.begin(ShapeRenderer.ShapeType.Circle);
+        debug.setColor(Color.BLACK);
+        debug.circle(getCenterX(), getCenterY(), getWidth() / 2);
         debug.end();
     }
 }

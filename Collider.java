@@ -14,6 +14,15 @@ public class Collider {
         this.map = map;
     }
 
+    public void entities(Player p, Entity e) {
+        if (p.bounds.overlaps(e.bounds)) {
+            if (e instanceof Money) {
+                Money money = (Money) e;
+                money.onCollide(p);
+            }
+        }
+    }
+
     /**
      * get a list of blocks the entity maybe colliding with after movement
      *

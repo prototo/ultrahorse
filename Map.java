@@ -29,7 +29,7 @@ public class Map implements Drawable {
         Random r = new Random();
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles.length; y++) {
-                if (r.nextInt(20) == 1 || x == 0 || y == 0 || x == tiles.length - 1|| y == tiles.length - 1) {
+                if (x == 0 || y == 0 || x == tiles.length - 1|| y == tiles.length - 1) {
                     tiles[x][y] = (new Block(x * tileSize, y * tileSize, tileSize, tileSize));
                 }
             }

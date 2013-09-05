@@ -188,6 +188,10 @@ public class Entity implements Drawable {
 
     }
 
+    public void onCollide(Player p) {
+
+    }
+
     /**
      * What to do when colliding with a map tile block
      *

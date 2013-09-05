@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Scaling;
  * General screen stuff that can be shared
  */
 public abstract class Screen implements com.badlogic.gdx.Screen{
-    private int width, height;
+    protected int width, height;
     protected OrthographicCamera cam;
     protected Vector2 center;
     protected SpriteBatch batch;
