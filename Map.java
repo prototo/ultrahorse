@@ -25,12 +25,54 @@ public class Map implements Drawable {
         return tiles[0].length * tileSize;
     }
 
-    private void populate() {
+    // amazing procedural generation
+    private boolean should(int x, int y) {
+        boolean should = false;
+
+        // map borders
+        should |= x == 0;
+        should |= y == 0;
+        should |= x == tiles.length - 1;
+        should |= y == tiles.length - 1;
+
+        return should;
+    }
+
+    private boolean shouldSecond(int x, int y) {
+        boolean should = false;
         Random r = new Random();
-        for (int x = 0; x < tiles.length; x++) {
-            for (int y = 0; y < tiles.length; y++) {
-                if (x == 0 || y == 0 || x == tiles.length - 1|| y == tiles.length - 1) {
-                    tiles[x][y] = (new Block(x * tileSize, y * tileSize, tileSize, tileSize));
+        int rchance = 30; int pchance = 4;
+
+        should |= r.nextInt(rchance) == 1;
+
+        for (int nx = x - 1; nx <= x + 1; nx++) {
+            for (int ny = y - 1; ny <= y + 1; ny++) {
+                should |= getTile(nx, ny) != null && r.nextInt(pchance) == 1;
+            }
+        }
+
+        return should;
+    }
+
+    private void populate() {
+        boolean runs = true;
+
+        for (int x = tiles.length - 1; x >= 0; x--) {
+            for (int y = tiles[0].length - 1; y >= 0; y--) {
+                if (runs ? should(x, y) : getTile(x, y) != null ? true : shouldSecond(x, y)) {
+                    Block block = (new Block(x * tileSize, y * tileSize, tileSize, tileSize));
+                    if (getTile(x, y+1) == null) {
+                        block.setTexture("sprites/env/ground.png");
+                    } else {
+                        block.setTexture("sprites/env/dirt.png");
+                    }
+                    tiles[x][y] = block;
+                }
+
+                if (runs && x == 0 && y == 0) {
+                    runs = false;
+                    x = tiles.length - 1;
+                    y = tiles[0].length - 1;
                 }
             }
         }
@@ -52,7 +94,13 @@ public class Map implements Drawable {
 
     @Override
     public void draw(SpriteBatch batch) {
-
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles.length; y++) {
+                if (getTile(x, y) != null) {
+                    getTile(x, y).draw(batch);
+                }
+            }
+        }
     }
 
     @Override

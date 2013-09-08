@@ -20,6 +20,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen{
     protected ShapeRenderer debug;
 
     protected abstract void gameStep(float delta);
+    protected float scale = 1;
 
     public Screen(int width, int height) {
         this.width = width;
@@ -54,6 +55,8 @@ public abstract class Screen implements com.badlogic.gdx.Screen{
         cam.zoom = zoom;
         cam.viewportWidth = viewportWidth;
         cam.viewportHeight = viewportHeight;
+
+        scale = (float) viewportHeight / (float) this.height;
     }
 
     @Override

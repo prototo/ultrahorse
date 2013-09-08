@@ -69,15 +69,15 @@ public class GameScreen extends Screen {
         float camY = player.getCenterY();
 
         // clip camera to map edges
-        if (camX < cam.viewportWidth / 2) {
-            camX = cam.viewportWidth / 2;
-        } else if (camX > map.getWidth() - cam.viewportWidth / 2) {
-            camX = map.getWidth() - cam.viewportWidth / 2;
+        if (camX < this.width / 2) {
+            camX = this.width / 2;
+        } else if (camX > map.getWidth() - this.width / 2) {
+            camX = map.getWidth() - this.width / 2;
         }
-        if (camY < cam.viewportHeight / 2) {
-            camY = cam.viewportHeight / 2;
-        } else if (camY > map.getHeight() - cam.viewportHeight / 2) {
-            camY = map.getHeight() - cam.viewportHeight / 2;
+        if (camY < this.height / 2) {
+            camY = this.height / 2;
+        } else if (camY > map.getHeight() - this.height / 2) {
+            camY = map.getHeight() - this.height / 2;
         }
 
         cam.position.set(camX, camY, 0);
@@ -103,7 +103,8 @@ public class GameScreen extends Screen {
         }
 
         // mo money
-        items.add(new Money(player.getCenterX(), cam.position.y));
+//        items.add(new Money(player.getX(), cam.position.y));
+
         label.setText("" + player.stats.getMoney());
 
         setCameraPosition();
@@ -121,14 +122,15 @@ public class GameScreen extends Screen {
         batch.end();
 
         // DEBUG
-        player.drawDebug(debug);
         map.drawDebug(debug);
+        player.drawDebug(debug);
         for (Item item : items) {
             item.drawDebug(debug);
         }
         // DEBUG
 
         batch.begin();
+        map.draw(batch);
         player.draw(batch);
 //        for (Item item : items) {
 //            item.draw(batch);
@@ -141,6 +143,5 @@ public class GameScreen extends Screen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        stage.setViewport(width, height, true);
     }
 }
