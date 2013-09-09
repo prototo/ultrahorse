@@ -13,8 +13,8 @@ public class Block extends Entity {
         super(x, y, width, height);
     }
 
-    public void setTexture(String ref) {
-        texture = new Texture(Gdx.files.internal(ref));
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
     public void drawDebug(ShapeRenderer debug) {

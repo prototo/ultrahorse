@@ -1,3 +1,5 @@
+import com.badlogic.gdx.graphics.Color;
+
 import java.util.Random;
 
 /**
@@ -19,6 +21,8 @@ public class Money extends Item {
         this.EXPIRE = false;
         this.BOUNCEY = true;
 //        randomVelocity();
+
+        debugColor = Color.YELLOW;
     }
 
     public int getValue() {

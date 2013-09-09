@@ -32,7 +32,7 @@ public class GameScreen extends Screen {
 
     public void show() {
         super.show();
-        map = new Map();
+        map = new Map(items);
         stats = new Stats();
         player = new Player(stats);
         controller = new Controller(player);
@@ -103,8 +103,6 @@ public class GameScreen extends Screen {
         }
 
         // mo money
-//        items.add(new Money(player.getX(), cam.position.y));
-
         label.setText("" + player.stats.getMoney());
 
         setCameraPosition();
@@ -122,8 +120,8 @@ public class GameScreen extends Screen {
         batch.end();
 
         // DEBUG
-        map.drawDebug(debug);
-        player.drawDebug(debug);
+//        map.drawDebug(debug);
+//        player.drawDebug(debug);
         for (Item item : items) {
             item.drawDebug(debug);
         }
