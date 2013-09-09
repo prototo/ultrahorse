@@ -141,7 +141,7 @@ public class GameScreen extends Screen implements InputProcessor {
 //        }
         batch.end();
 
-        stage.draw();
+//        stage.draw();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class GameScreen extends Screen implements InputProcessor {
     @Override
     public boolean keyDown(int i) {
         if (i == Input.Keys.R) {
-            map.populate();
+//            map.populate();
         }
 
         return false;  //To change body of implemented methods use File | Settings | File Templates.

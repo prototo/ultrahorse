@@ -15,6 +15,7 @@ public class Map implements Drawable {
 
     public final float tileSize = 32;
     Block[][] tiles;
+    int[][] blocks;
 
     ArrayList<Item> items;
 
@@ -23,6 +24,7 @@ public class Map implements Drawable {
     public Map(ArrayList<Item> items) {
         tiles = new Block[50][50];
         this.items = items;
+        blocks = new int[tiles.length][tiles[0].length];
         setupTextures();
         populate();
     }
@@ -57,7 +59,6 @@ public class Map implements Drawable {
 
     public void populate() {
         tiles = new Block[50][50];
-        int blocks[][] = new int[tiles.length][tiles[0].length];
         Random r = new Random();
         int rchance = 25; int pchance = 2;
 
@@ -81,7 +82,13 @@ public class Map implements Drawable {
             }
         }
 
+        buildMap();
+    }
+
+    private void buildMap() {
         // fill tiles
+        tiles = new Block[tiles.length][tiles.length];
+
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
                 if (blocks[x][y] == 1) {
@@ -161,5 +168,30 @@ public class Map implements Drawable {
                 }
             }
         }
+    }
+
+    public String exportMap() {
+        String m = "";
+        for (int row[] : blocks) {
+            for (int v : row) {
+                m += new Integer(v).toString();
+            }
+            m += ":";
+        }
+        return m;
+    }
+
+    public void importMap(String map) {
+        int x = 0, y = 0;
+        for (char v : map.toCharArray()) {
+            if (v == ':') {
+                y = 0;
+                x++;
+            } else {
+                blocks[x][y] = Character.getNumericValue(v);
+                y++;
+            }
+        }
+        buildMap();
     }
 }
