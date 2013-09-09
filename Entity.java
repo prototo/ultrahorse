@@ -34,6 +34,8 @@ public class Entity implements Drawable {
     State state = State.IDLE;
     float stateTime = 0;
 
+    Color tint = new Color(1, 1, 1, 1);
+
     Animation idleRight, idleLeft, runRight, runLeft;
 
     Random r = new Random();
@@ -153,9 +155,12 @@ public class Entity implements Drawable {
     }
 
     public void draw(SpriteBatch batch) {
+        Color c = batch.getColor();
+        batch.setColor(tint);
         TextureRegion region = getTextureRegion();
         float halfWidth = getWidth() / 2;
         batch.draw(region, getCenterX() - halfWidth, getY());
+        batch.setColor(c);
     }
 
     @Override

@@ -33,6 +33,7 @@ public class NetworkGame extends GameScreen {
     public void show() {
         super.show();
         opponent = new Player(new Stats());
+        opponent.tint = new Color(0, 1, 1, 1);
     }
 
     protected void register() {
