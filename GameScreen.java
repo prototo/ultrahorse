@@ -1,4 +1,7 @@
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import java.util.ArrayList;
 
-public class GameScreen extends Screen {
+public class GameScreen extends Screen implements InputProcessor {
     Map map;
     Texture background;
     Collider collide;
@@ -41,7 +44,10 @@ public class GameScreen extends Screen {
         background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         setupUI();
 
-        Gdx.input.setInputProcessor(controller);
+        InputMultiplexer multi = new InputMultiplexer();
+        multi.addProcessor(controller);
+        multi.addProcessor(this);
+        Gdx.input.setInputProcessor(multi);
     }
 
     private void setupUI() {
@@ -141,5 +147,53 @@ public class GameScreen extends Screen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+    }
+
+    /**
+     * INPUT PROCESSOR STUFF
+     */
+
+    @Override
+    public boolean keyDown(int i) {
+        if (i == Input.Keys.R) {
+            map.populate();
+        }
+
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean keyUp(int i) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean keyTyped(char c) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean touchDown(int i, int i2, int i3, int i4) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean touchUp(int i, int i2, int i3, int i4) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean touchDragged(int i, int i2, int i3) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean mouseMoved(int i, int i2) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean scrolled(int i) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

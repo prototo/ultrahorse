@@ -55,7 +55,8 @@ public class Map implements Drawable {
         return should;
     }
 
-    private void populate() {
+    public void populate() {
+        tiles = new Block[50][50];
         int blocks[][] = new int[tiles.length][tiles[0].length];
         Random r = new Random();
         int rchance = 25; int pchance = 2;
