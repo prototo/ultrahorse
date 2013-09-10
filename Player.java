@@ -21,7 +21,7 @@ public class Player extends Entity {
         runLeft = setupAnimation(atlas, new String[]{"running-0", "standing-0", "running-1", "standing-0"}, true);
         runRight = setupAnimation(atlas, new String[]{"running-0", "standing-0", "running-1", "standing-0"}, false);
 
-        wearHat(new Hat(this, "abe"));
+        wearHat(new Hat(this, "fez"));
     }
 
     public void wearHat(Hat hat) {

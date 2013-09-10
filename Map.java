@@ -13,6 +13,7 @@ import java.util.Random;
  */
 public class Map implements Drawable {
 
+    private int mapSize = 100;
     public final float tileSize = 32;
     Block[][] tiles;
 
@@ -21,7 +22,7 @@ public class Map implements Drawable {
     HashMap<String, Texture> textures = new HashMap<String, Texture>();
 
     public Map(ArrayList<Item> items) {
-        tiles = new Block[50][50];
+        tiles = new Block[mapSize][mapSize];
         this.items = items;
         setupTextures();
         populate();
@@ -56,7 +57,7 @@ public class Map implements Drawable {
     }
 
     public void populate() {
-        tiles = new Block[50][50];
+        tiles = new Block[mapSize][mapSize];
         int blocks[][] = new int[tiles.length][tiles[0].length];
         Random r = new Random();
         int rchance = 25; int pchance = 2;
@@ -143,8 +144,17 @@ public class Map implements Drawable {
 
     @Override
     public void draw(SpriteBatch batch) {
-        for (int x = 0; x < tiles.length; x++) {
-            for (int y = 0; y < tiles.length; y++) {
+
+    }
+
+    public void draw(SpriteBatch batch, float cx, float cy, float width, float height) {
+        int sx = (int) Math.floor(cx / tileSize);
+        int ex = (int) Math.ceil((cx + width) / tileSize);
+        int sy = (int) Math.floor(cy / tileSize);
+        int ey = (int) Math.ceil((cy + height) / tileSize);
+
+        for (int x = sx; x < ex; x++) {
+            for (int y = sy; y <= ey; y++) {
                 if (getTile(x, y) != null) {
                     getTile(x, y).draw(batch);
                 }

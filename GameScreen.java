@@ -134,7 +134,7 @@ public class GameScreen extends Screen implements InputProcessor {
         // DEBUG
 
         batch.begin();
-        map.draw(batch);
+        map.draw(batch, cam.position.x - cam.viewportWidth/2, cam.position.y - cam.viewportHeight/2, cam.viewportWidth, cam.viewportHeight);
         player.draw(batch);
 //        for (Item item : items) {
 //            item.draw(batch);
