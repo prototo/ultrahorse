@@ -154,8 +154,8 @@ public class Entity implements Drawable {
 
     public void draw(SpriteBatch batch) {
         TextureRegion region = getTextureRegion();
-        float halfWidth = getWidth() / 2;
-        batch.draw(region, getCenterX() - halfWidth, getY());
+        float x = facingLeft ? getRight() - region.getRegionWidth() : getX();
+        batch.draw(region, x, getY());
     }
 
     @Override
