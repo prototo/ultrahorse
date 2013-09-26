@@ -16,10 +16,7 @@ public class Collider {
 
     public void entities(Player p, Entity e) {
         if (p.bounds.overlaps(e.bounds)) {
-            if (e instanceof Money) {
-                Money money = (Money) e;
-                money.onCollide(p);
-            }
+            e.onCollide(p);
         }
     }
 

@@ -25,8 +25,11 @@ public class Entity implements Drawable {
     Vector2 position;
     Vector2 velocity;
     Rectangle bounds;
+
+    ArrayList<Equipment> equipment;
+    Attributes attributes;
+
     float speed = 300f;
-    float jumpSpeed = 400f;
     float jumpTimer = 0;
 
     boolean grounded = false;
@@ -40,6 +43,10 @@ public class Entity implements Drawable {
     Color debugColor = new Color(0.05f + r.nextFloat(), 0.05f + r.nextFloat(), 0.05f + r.nextFloat(), 1);
 
     public Entity(float x, float y, float width, float height) {
+        equipment = new ArrayList<Equipment>();
+        attributes = new Attributes(equipment);
+        attributes.put(Attributes.Types.JUMPPOWER, 400);
+
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
         bounds = new Rectangle();
@@ -168,7 +175,7 @@ public class Entity implements Drawable {
 
     public void jump() {
         if (jumpTimer < JUMP_TIMER) {
-            velocity.y = jumpSpeed;
+            velocity.y = attributes.get(Attributes.Types.JUMPPOWER);
             grounded = false;
         }
     }
@@ -227,5 +234,11 @@ public class Entity implements Drawable {
 
     public void setControlled(boolean controlled) {
         this.CONTROLLED = controlled;
+    }
+
+    public void equip(Equipment equipment) {
+        this.equipment.add(equipment);
+        this.attributes.calculate();
+        equipment.markForRemoval();
     }
 }

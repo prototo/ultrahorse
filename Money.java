@@ -31,7 +31,7 @@ public class Money extends Item {
 
     @Override
     public void onCollide(Player p) {
-        p.stats.gainMoney(this);
+        p.attributes.gainMoney(this);
         markForRemoval();
     }
 }

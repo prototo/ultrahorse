@@ -10,9 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameScreen extends Screen implements InputProcessor {
     Map map;
@@ -21,7 +21,7 @@ public class GameScreen extends Screen implements InputProcessor {
 
     Player player;
     Controller controller;
-    Stats stats;
+    Attributes attributes;
 
     Skin skin;
     Stage stage;
@@ -36,8 +36,7 @@ public class GameScreen extends Screen implements InputProcessor {
     public void show() {
         super.show();
         map = new Map(items);
-        stats = new Stats();
-        player = new Player(stats);
+        player = new Player();
         controller = new Controller(player);
         collide = new Collider(map);
         background = new Texture(Gdx.files.internal("sprites/stars.png"));
@@ -48,6 +47,11 @@ public class GameScreen extends Screen implements InputProcessor {
         multi.addProcessor(controller);
         multi.addProcessor(this);
         Gdx.input.setInputProcessor(multi);
+
+        for (int x = 0; x < map.getWidth(); x++) {
+            Equipment e = new Equipment(x * map.tileSize, 500, 16, 16);
+            items.add(e);
+        }
     }
 
     private void setupUI() {
@@ -64,7 +68,7 @@ public class GameScreen extends Screen implements InputProcessor {
         skin.add("white", new Texture(pixmap));
         skin.add("default", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        label = new Label("THIS IS A LABEL", skin);
+        label = new Label("", skin);
         table.setPosition(50, height - 50);
         table.addActor(label);
     }
@@ -109,7 +113,7 @@ public class GameScreen extends Screen implements InputProcessor {
         }
 
         // mo money
-        label.setText("" + player.stats.getMoney());
+        label.setText("Jump Power: " + player.attributes.get(Attributes.Types.JUMPPOWER));
 
         setCameraPosition();
     }
