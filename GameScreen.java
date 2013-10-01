@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import java.util.ArrayList;
 
@@ -28,6 +28,8 @@ public class GameScreen extends Screen implements InputProcessor {
     Label label;
 
     ArrayList<Item> items = new ArrayList<Item>();
+
+    ShaderProgram shader;
 
     public GameScreen(int width, int height) {
         super(width, height);
@@ -48,6 +50,13 @@ public class GameScreen extends Screen implements InputProcessor {
         multi.addProcessor(controller);
         multi.addProcessor(this);
         Gdx.input.setInputProcessor(multi);
+
+        String vert = Gdx.files.internal("shader/screen.vert").readString();
+        String frag = Gdx.files.internal("shader/screen.frag").readString();
+        ShaderProgram.pedantic = false;
+        shader = new ShaderProgram(vert, frag);
+
+        if (!shader.isCompiled()) System.out.println(shader.getLog());
     }
 
     private void setupUI() {
@@ -121,6 +130,7 @@ public class GameScreen extends Screen implements InputProcessor {
         int repeat = 6;
         float parallax = cam.position.x * 0.5f;
 
+        batch.setShader(null);
         batch.begin();
         batch.draw(background, -512 + parallax, -512, background.getWidth() * repeat, background.getHeight() * repeat, 0, repeat, repeat, 0);
         batch.end();
@@ -133,6 +143,7 @@ public class GameScreen extends Screen implements InputProcessor {
         }
         // DEBUG
 
+        batch.setShader(shader);
         batch.begin();
         map.draw(batch);
         player.draw(batch);
