@@ -3,9 +3,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,7 +32,12 @@ public class GameScreen extends Screen implements InputProcessor {
 
     ArrayList<Item> items = new ArrayList<Item>();
 
+    FrameBuffer occludersFB;
+    FrameBuffer shadowMapFB;
+    TextureRegion occludersTR;
+    Texture shadowMapT;
     ShaderProgram shader;
+    ShaderProgram shadows;
 
     public GameScreen(int width, int height) {
         super(width, height);
@@ -51,12 +59,21 @@ public class GameScreen extends Screen implements InputProcessor {
         multi.addProcessor(this);
         Gdx.input.setInputProcessor(multi);
 
-        String vert = Gdx.files.internal("shader/screen.vert").readString();
-        String frag = Gdx.files.internal("shader/screen.frag").readString();
         ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(vert, frag);
+        String vert = Gdx.files.internal("shader/screen.vert").readString();
+        shader = new ShaderProgram(vert, Gdx.files.internal("shader/shadowMap.frag").readString());
+        shadows = new ShaderProgram(vert, Gdx.files.internal("shader/shadowRender.frag").readString());
+
+        occludersFB = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        occludersTR = new TextureRegion(occludersFB.getColorBufferTexture());
+        occludersTR.flip(false, true);
+        shadowMapFB = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, 1, false);
+        shadowMapT = shadowMapFB.getColorBufferTexture();
+        shadowMapT.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        shadowMapT.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         if (!shader.isCompiled()) System.out.println(shader.getLog());
+        if (!shadows.isCompiled()) System.out.println(shadows.getLog());
     }
 
     private void setupUI() {
@@ -79,6 +96,8 @@ public class GameScreen extends Screen implements InputProcessor {
     }
 
     private void setCameraPosition() {
+        cam.setToOrtho(false);
+
         // center camera on player center
         float camX = player.getCenterX();
         float camY = player.getCenterY();
@@ -118,7 +137,7 @@ public class GameScreen extends Screen implements InputProcessor {
         }
 
         // mo money
-        label.setText("" + player.stats.getMoney());
+        label.setText("");
 
         setCameraPosition();
     }
@@ -143,16 +162,80 @@ public class GameScreen extends Screen implements InputProcessor {
         }
         // DEBUG
 
-        batch.setShader(shader);
         batch.begin();
-        map.draw(batch);
-        player.draw(batch);
-//        for (Item item : items) {
-//            item.draw(batch);
-//        }
+            batch.setShader(null);
+            map.draw(batch);
+            player.draw(batch);
         batch.end();
 
+        drawShadows();
+
         stage.draw();
+    }
+
+    int lightSize = 256;
+    float lx, ly;
+    private void drawOccluders() {
+        occludersFB.begin();
+
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+        cam.setToOrtho(false, occludersFB.getWidth(), occludersFB.getHeight());
+        cam.position.set(lx, ly, 0);
+        cam.update();
+        batch.setProjectionMatrix(cam.combined);
+
+        batch.setShader(null);
+        batch.begin();
+            map.draw(batch);
+            player.draw(batch);
+//            for (Item item : items) {
+//                item.draw(batch);
+//            }
+        batch.end();
+        occludersFB.end();
+    }
+    private void drawShadowMap() {
+        drawOccluders();
+
+        shadowMapFB.begin();
+
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+        batch.setShader(null);
+        batch.begin();
+        shadows.setUniformf("resolution", lightSize, lightSize);
+
+        cam.setToOrtho(false, shadowMapFB.getWidth(), shadowMapFB.getHeight());
+        batch.setProjectionMatrix(cam.combined);
+        batch.draw(occludersFB.getColorBufferTexture(), 0, 0, lightSize, shadowMapFB.getHeight());
+
+        batch.end();
+        shadowMapFB.end();
+    }
+    private void drawShadows() {
+        lx = player.getCenterX() + 16 - lightSize/2;
+        ly = player.getCenterY() + 16 - lightSize/2;
+        drawShadowMap();
+
+        cam.setToOrtho(false);
+        batch.setProjectionMatrix(cam.combined);
+
+        batch.setShader(shadows);
+        batch.begin();
+        shadows.setUniformf("resolution", lightSize, lightSize);
+        shadows.setUniformf("softShadows", 1f);
+
+        batch.setColor(Color.GREEN);
+//        batch.draw(shadowMapT, lx, ly, lightSize, lightSize);
+        batch.draw(occludersFB.getColorBufferTexture(), lx, ly);
+        batch.setColor(Color.WHITE);
+
+        batch.end();
+
+        System.out.println(lx + " " + ly);
     }
 
     @Override

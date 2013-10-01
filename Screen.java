@@ -62,6 +62,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen{
     @Override
     public void show() {
         this.cam = new OrthographicCamera(width, height);
+        this.cam.setToOrtho(false);
         this.batch = new SpriteBatch();
         this.debug = new ShapeRenderer();
     }
