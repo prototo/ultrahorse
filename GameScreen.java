@@ -168,25 +168,20 @@ public class GameScreen extends Screen implements InputProcessor {
         TextureRegion t = new TextureRegion(fourth.getColorBufferTexture());
 //            t.flip(false, true);
 
-        batch.draw(third.getColorBufferTexture(), 32 + 256, 32 + 256);
-        batch.draw(t, 32, 32 + 256);
-        batch.draw(t, 32, 32);
+        batch.draw(third.getColorBufferTexture(), 32 + lightSize, 32 + lightSize);
+        batch.draw(t, 0, lightSize);
+        batch.draw(t, 0, 0);
         map.draw(batch);
         player.draw(batch);
 
         batch.end();
-
-        debug.begin(ShapeRenderer.ShapeType.Box);
-        debug.box(32, 32 + 256, 0, 256, 256, 1);
-        debug.box(32, 32, 0, 256, 256, 1);
-        debug.end();
 
         drawShadows();
 
         stage.draw();
     }
 
-    int lightSize = 256;
+    int lightSize = 300;
     float lx, ly;
     private void drawOccluders() {
         float dx = lx - lightSize / 2;
@@ -250,8 +245,8 @@ public class GameScreen extends Screen implements InputProcessor {
         fourth.end();
     }
     private void drawShadows() {
-        lx = 128 + 32;
-        ly = 128 + 32;
+        lx = lightSize / 2;
+        ly = lightSize / 2;
 
         drawOccluders();
     }
