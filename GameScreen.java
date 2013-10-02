@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -33,11 +34,12 @@ public class GameScreen extends Screen implements InputProcessor {
     ArrayList<Item> items = new ArrayList<Item>();
 
     FrameBuffer occludersFB;
-    FrameBuffer shadowMapFB;
-    TextureRegion occludersTR;
-    Texture shadowMapT;
+    FrameBuffer second;
+    FrameBuffer third;
+    FrameBuffer fourth;
     ShaderProgram shader;
-    ShaderProgram shadows;
+    ShaderProgram reduce;
+    ShaderProgram shadow;
 
     public GameScreen(int width, int height) {
         super(width, height);
@@ -61,19 +63,18 @@ public class GameScreen extends Screen implements InputProcessor {
 
         ShaderProgram.pedantic = false;
         String vert = Gdx.files.internal("shader/screen.vert").readString();
-        shader = new ShaderProgram(vert, Gdx.files.internal("shader/shadowMap.frag").readString());
-        shadows = new ShaderProgram(vert, Gdx.files.internal("shader/shadowRender.frag").readString());
+        shader = new ShaderProgram(vert, Gdx.files.internal("shader/screen.frag").readString());
+        reduce = new ShaderProgram(vert, Gdx.files.internal("shader/reduce.frag").readString());
+        shadow = new ShaderProgram(vert, Gdx.files.internal("shader/shadow.frag").readString());
 
         occludersFB = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
-        occludersTR = new TextureRegion(occludersFB.getColorBufferTexture());
-        occludersTR.flip(false, true);
-        shadowMapFB = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, 1, false);
-        shadowMapT = shadowMapFB.getColorBufferTexture();
-        shadowMapT.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        shadowMapT.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        second = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        third = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        fourth = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
 
         if (!shader.isCompiled()) System.out.println(shader.getLog());
-        if (!shadows.isCompiled()) System.out.println(shadows.getLog());
+        if (!reduce.isCompiled()) System.out.println(reduce.getLog());
+        if (!shadow.isCompiled()) System.out.println(shadow.getLog());
     }
 
     private void setupUI() {
@@ -151,7 +152,7 @@ public class GameScreen extends Screen implements InputProcessor {
 
         batch.setShader(null);
         batch.begin();
-        batch.draw(background, -512 + parallax, -512, background.getWidth() * repeat, background.getHeight() * repeat, 0, repeat, repeat, 0);
+//        batch.draw(background, -512 + parallax, -512, background.getWidth() * repeat, background.getHeight() * repeat, 0, repeat, repeat, 0);
         batch.end();
 
         // DEBUG
@@ -163,10 +164,22 @@ public class GameScreen extends Screen implements InputProcessor {
         // DEBUG
 
         batch.begin();
-            batch.setShader(null);
-            map.draw(batch);
-            player.draw(batch);
+        batch.setShader(null);
+        TextureRegion t = new TextureRegion(fourth.getColorBufferTexture());
+//            t.flip(false, true);
+
+        batch.draw(third.getColorBufferTexture(), 32 + 256, 32 + 256);
+        batch.draw(t, 32, 32 + 256);
+        batch.draw(t, 32, 32);
+        map.draw(batch);
+        player.draw(batch);
+
         batch.end();
+
+        debug.begin(ShapeRenderer.ShapeType.Box);
+        debug.box(32, 32 + 256, 0, 256, 256, 1);
+        debug.box(32, 32, 0, 256, 256, 1);
+        debug.end();
 
         drawShadows();
 
@@ -176,6 +189,9 @@ public class GameScreen extends Screen implements InputProcessor {
     int lightSize = 256;
     float lx, ly;
     private void drawOccluders() {
+        float dx = lx - lightSize / 2;
+        float dy = ly - lightSize / 2;
+
         occludersFB.begin();
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -195,47 +211,49 @@ public class GameScreen extends Screen implements InputProcessor {
 //            }
         batch.end();
         occludersFB.end();
-    }
-    private void drawShadowMap() {
-        drawOccluders();
 
-        shadowMapFB.begin();
 
+        second.begin();
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-        batch.setShader(null);
+        cam.setToOrtho(false, lightSize, lightSize);
+        cam.position.set(lx, ly, 0);
+        cam.update();
+        batch.setShader(shader);
         batch.begin();
-        shadows.setUniformf("resolution", lightSize, lightSize);
-
-        cam.setToOrtho(false, shadowMapFB.getWidth(), shadowMapFB.getHeight());
-        batch.setProjectionMatrix(cam.combined);
-        batch.draw(occludersFB.getColorBufferTexture(), 0, 0, lightSize, shadowMapFB.getHeight());
-
+            batch.draw(occludersFB.getColorBufferTexture(), dx, dy);
         batch.end();
-        shadowMapFB.end();
+        second.end();
+
+
+        third.begin();
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        cam.setToOrtho(false, lightSize, lightSize);
+        cam.position.set(lx, ly, 0);
+        cam.update();
+        batch.setShader(reduce);
+        batch.begin();
+            batch.draw(second.getColorBufferTexture(), dx, dy);
+        batch.end();
+        third.end();
+
+        fourth.begin();
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        cam.setToOrtho(false, lightSize, lightSize);
+        cam.update();
+        batch.setShader(shadow);
+        batch.begin();
+            batch.draw(third.getColorBufferTexture(), dx, dy);
+        batch.end();
+        fourth.end();
     }
     private void drawShadows() {
-        lx = player.getCenterX() + 16 - lightSize/2;
-        ly = player.getCenterY() + 16 - lightSize/2;
-        drawShadowMap();
+        lx = 128 + 32;
+        ly = 128 + 32;
 
-        cam.setToOrtho(false);
-        batch.setProjectionMatrix(cam.combined);
-
-        batch.setShader(shadows);
-        batch.begin();
-        shadows.setUniformf("resolution", lightSize, lightSize);
-        shadows.setUniformf("softShadows", 1f);
-
-        batch.setColor(Color.GREEN);
-//        batch.draw(shadowMapT, lx, ly, lightSize, lightSize);
-        batch.draw(occludersFB.getColorBufferTexture(), lx, ly);
-        batch.setColor(Color.WHITE);
-
-        batch.end();
-
-        System.out.println(lx + " " + ly);
+        drawOccluders();
     }
 
     @Override
