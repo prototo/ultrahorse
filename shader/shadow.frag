@@ -11,14 +11,14 @@ uniform sampler2D u_texture;
 
 void main()
 {
-    vec3 col = vec3(1);
     float a = 0.0;
 
     float u0 = v_texCoords.x * 2.0 - 1.0;
     float v0 = v_texCoords.y * 2.0 - 1.0;
 
     float fade = 1.0;
-    fade = max(abs(u0), abs(v0));
+    fade = sqrt(pow(abs(u0), 2) + pow(abs(v0), 2));
+    fade = 1.0 - fade;
 
     float ver = 0.0;
     if (abs(u0) < abs(v0)) {
@@ -44,5 +44,5 @@ void main()
         a = sample.g;
     }
 
-    gl_FragColor = vec4(col * a, 1.0);
+    gl_FragColor = vec4(0.6, 0.2, 1.0, a * fade);
 }

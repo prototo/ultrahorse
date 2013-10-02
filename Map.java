@@ -69,19 +69,17 @@ public class Map implements Drawable {
         }
 
         // land masses
-        /*
-        for (int x = 1; x < tiles.length - 1; x++) {
-            for (int y = 1; y < tiles[0].length - 1; y++) {
-                if (blocks[x][y] == 0) {
-                    blocks[x][y] = blocks[x][y] | (r.nextInt(rchance) == 1 ? 1 : 0);
-                    blocks[x][y] = blocks[x][y] | (blocks[x][y+1] & (r.nextInt(pchance) == 1 ? 1 : 0));
-                    blocks[x][y] = blocks[x][y] | (blocks[x][y-1] & (r.nextInt(pchance) == 1 ? 1 : 0));
-                    blocks[x][y] = blocks[x][y] | (blocks[x+1][y] & (r.nextInt(pchance) == 1 ? 1 : 0));
-                    blocks[x][y] = blocks[x][y] | (blocks[x-1][y] & (r.nextInt(pchance) == 1 ? 1 : 0));
-                }
-            }
-        }
-        */
+//        for (int x = 1; x < tiles.length - 1; x++) {
+//            for (int y = 1; y < tiles[0].length - 1; y++) {
+//                if (blocks[x][y] == 0) {
+//                    blocks[x][y] = blocks[x][y] | (r.nextInt(rchance) == 1 ? 1 : 0);
+//                    blocks[x][y] = blocks[x][y] | (blocks[x][y+1] & (r.nextInt(pchance) == 1 ? 1 : 0));
+//                    blocks[x][y] = blocks[x][y] | (blocks[x][y-1] & (r.nextInt(pchance) == 1 ? 1 : 0));
+//                    blocks[x][y] = blocks[x][y] | (blocks[x+1][y] & (r.nextInt(pchance) == 1 ? 1 : 0));
+//                    blocks[x][y] = blocks[x][y] | (blocks[x-1][y] & (r.nextInt(pchance) == 1 ? 1 : 0));
+//                }
+//            }
+//        }
 
         // fill tiles
         for (int x = 0; x < tiles.length; x++) {
