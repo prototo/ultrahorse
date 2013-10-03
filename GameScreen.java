@@ -165,10 +165,11 @@ public class GameScreen extends Screen implements InputProcessor {
         }
         // DEBUG
 
-        drawLights();
         drawEntities();
+        drawLights();
 
 //        stage.draw();
+
     }
 
     private void drawEntities() {
@@ -182,16 +183,12 @@ public class GameScreen extends Screen implements InputProcessor {
         batch.end();
     }
 
+    OrthographicCamera c = new OrthographicCamera();
     private void drawLight(float lx, float ly, int lightSize) {
         float dx = lx - lightSize / 2;
         float dy = ly - lightSize / 2;
 
-        OrthographicCamera c = new OrthographicCamera();
-
-        occludersFB = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
         occludersFB.begin();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         c.setToOrtho(false, lightSize, lightSize);
         c.position.set(lx, ly, 0);
         c.update();
@@ -200,28 +197,14 @@ public class GameScreen extends Screen implements InputProcessor {
         drawEntities();
         occludersFB.end();
 
-        second = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
         second.begin();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        c.setToOrtho(false, lightSize, lightSize);
-        c.position.set(lx, ly, 0);
-        c.update();
-        batch.setProjectionMatrix(c.combined);
         batch.setShader(shader);
         batch.begin();
         batch.draw(occludersFB.getColorBufferTexture(), dx, dy);
         batch.end();
         second.end();
 
-        third = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
         third.begin();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        c.setToOrtho(false, lightSize, lightSize);
-        c.position.set(lx, ly, 0);
-        c.update();
-        batch.setProjectionMatrix(c.combined);
         batch.setShader(reduce);
         batch.begin();
         batch.draw(second.getColorBufferTexture(), dx, dy);
@@ -230,9 +213,6 @@ public class GameScreen extends Screen implements InputProcessor {
 
         TextureRegion t = new TextureRegion(third.getColorBufferTexture());
         t.flip(false, true);
-
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(cam.combined);
         batch.setShader(shadow);
         batch.begin();
@@ -240,9 +220,12 @@ public class GameScreen extends Screen implements InputProcessor {
         batch.end();
 
         batch.setShader(null);
+        occludersFB = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        second = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        third = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
     }
     private void drawLights() {
-        drawLight(512, 256, 512);
+        drawLight(256, 256, 512);
     }
 
     @Override
