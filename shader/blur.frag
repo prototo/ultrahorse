@@ -1,27 +1,21 @@
-#ifdef GL_ES
-#define LOWP lowp
-precision mediump float;
-#else
-#define LOWP 
-#endif
- 
 #define PI 3.14
-varying vec2 vTexCoord0;
-varying LOWP vec4 vColor;
- 
+
+//inputs from vertex shader
+varying vec2 v_texCoords;
+varying vec4 v_color;
+
+//uniform values
 uniform sampler2D u_texture;
 uniform vec2 resolution;
- 
-uniform float softShadows;
- 
-//sample from the distance map
+
+//sample from the 1D distance map
 float sample(vec2 coord, float r) {
-  return step(r, texture2D(u_texture, coord).r);
+	return step(r, texture2D(u_texture, coord).r);
 }
- 
+
 void main(void) {
-    //rectangular to polar
-	vec2 norm = vTexCoord0.st * 2.0 - 1.0;
+	//rectangular to polar
+	vec2 norm = v_texCoords.st * 2.0 - 1.0;
 	float theta = atan(norm.y, norm.x);
 	float r = length(norm);	
 	float coord = (theta + PI) / (2.0*PI);
@@ -31,11 +25,11 @@ void main(void) {
 	vec2 tc = vec2(coord, 0.0);
 	
 	//the center tex coord, which gives us hard shadows
-	float center = sample(vec2(tc.x, tc.y), r);        
+	float center = sample(tc, r);        
 	
 	//we multiply the blur amount by our distance from center
 	//this leads to more blurriness as the shadow "fades away"
-	float blur = (1./resolution.x)  * smoothstep(0., 1., r); 
+	float blur = (3./resolution.x)  * smoothstep(0., 1., r);
 	
 	//now we use a simple gaussian blur
 	float sum = 0.0;
@@ -52,10 +46,9 @@ void main(void) {
 	sum += sample(vec2(tc.x + 3.0*blur, tc.y), r) * 0.09;
 	sum += sample(vec2(tc.x + 4.0*blur, tc.y), r) * 0.05;
 	
-	//1.0 -> in light, 0.0 -> in shadow
- 	float lit = mix(center, sum, softShadows);
+	//sum of 1.0 -> in light, 0.0 -> in shadow
  	
  	//multiply the summed amount by our distance, which gives us a radial falloff
  	//then multiply by vertex (light) color  
- 	gl_FragColor = vColor * vec4(vec3(1.0), lit * smoothstep(1.0, 0.0, r));
+ 	gl_FragColor = v_color * vec4(vec3(1.0), sum * smoothstep(1.0, 0.0, r));
 }

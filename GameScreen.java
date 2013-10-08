@@ -30,17 +30,10 @@ public class GameScreen extends Screen implements InputProcessor {
 
     ArrayList<Item> items = new ArrayList<Item>();
 
-    FrameBuffer occludersFB;
-    FrameBuffer second;
-    FrameBuffer third;
-    FrameBuffer fourth;
-    ShaderProgram shader;
-    ShaderProgram reduce;
+    FrameBuffer occluders;
+    FrameBuffer shadowMap;
     ShaderProgram shadow;
-
-    Texture cover;
-
-    ArrayList<float[]> lights = new ArrayList<float[]>();
+    ShaderProgram blur;
 
     public GameScreen(int width, int height) {
         super(width, height);
@@ -64,19 +57,15 @@ public class GameScreen extends Screen implements InputProcessor {
 
         ShaderProgram.pedantic = false;
         String vert = Gdx.files.internal("shader/screen.vert").readString();
-        shader = new ShaderProgram(vert, Gdx.files.internal("shader/screen.frag").readString());
-        reduce = new ShaderProgram(vert, Gdx.files.internal("shader/reduce.frag").readString());
         shadow = new ShaderProgram(vert, Gdx.files.internal("shader/shadow.frag").readString());
+        blur = new ShaderProgram(vert, Gdx.files.internal("shader/blur.frag").readString());
 
         int lightSize = 256;
-        occludersFB = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
-        second = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
-        third = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
-        fourth = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        occluders = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        shadowMap = new FrameBuffer(Pixmap.Format.RGBA8888, 1, lightSize, false);
 
-        if (!shader.isCompiled()) System.out.println(shader.getLog());
-        if (!reduce.isCompiled()) System.out.println(reduce.getLog());
         if (!shadow.isCompiled()) System.out.println(shadow.getLog());
+        if (!blur.isCompiled()) System.out.println(blur.getLog());
     }
 
     private void setupUI() {
@@ -165,8 +154,8 @@ public class GameScreen extends Screen implements InputProcessor {
         }
         // DEBUG
 
-        drawEntities();
         drawLights();
+        drawEntities();
 
 //        stage.draw();
 
@@ -184,48 +173,55 @@ public class GameScreen extends Screen implements InputProcessor {
     }
 
     OrthographicCamera c = new OrthographicCamera();
-    private void drawLight(float lx, float ly, int lightSize) {
+    private void drawLight(float lx, float ly, int lightSize, Color lightColor) {
         float dx = lx - lightSize / 2;
         float dy = ly - lightSize / 2;
 
-        occludersFB.begin();
-        c.setToOrtho(false, lightSize, lightSize);
+        occluders = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        shadowMap = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, 1, false);
+        Texture shadowMapTex = shadowMap.getColorBufferTexture();
+
+        shadowMapTex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        shadowMapTex.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+        occluders.begin();
+        c.setToOrtho(false, occluders.getWidth(), occluders.getHeight());
         c.position.set(lx, ly, 0);
         c.update();
         batch.setProjectionMatrix(c.combined);
         batch.setShader(null);
         drawEntities();
-        occludersFB.end();
+        occluders.end();
 
-        second.begin();
-        batch.setShader(shader);
-        batch.begin();
-        batch.draw(occludersFB.getColorBufferTexture(), dx, dy);
-        batch.end();
-        second.end();
-
-        third.begin();
-        batch.setShader(reduce);
-        batch.begin();
-        batch.draw(second.getColorBufferTexture(), dx, dy);
-        batch.end();
-        third.end();
-
-        TextureRegion t = new TextureRegion(third.getColorBufferTexture());
-        t.flip(false, true);
-        batch.setProjectionMatrix(cam.combined);
+        shadowMap.begin();
+        Gdx.gl.glClearColor(0f,0f,0f,0f);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         batch.setShader(shadow);
         batch.begin();
-        batch.draw(t, dx, dy);
+        shadow.setUniformf("resolution", lightSize, lightSize);
+        c.setToOrtho(false, shadowMap.getWidth(), shadowMap.getHeight());
+        batch.setProjectionMatrix(c.combined);
+//        batch.draw(occluders.getColorBufferTexture(), dx, dy, lightSize, shadowMap.getHeight());
+        batch.draw(occluders.getColorBufferTexture(), 0, 0, lightSize, shadowMap.getHeight());
+        batch.end();
+        shadowMap.end();
+
+        batch.setProjectionMatrix(cam.combined);
+
+        batch.setShader(blur);
+        batch.begin();
+        blur.setUniformf("resolution", lightSize, lightSize);
+        Color bc = batch.getColor();
+        batch.setColor(lightColor);
+        batch.draw(shadowMap.getColorBufferTexture(), dx, dy, lightSize, lightSize);
+        batch.setColor(bc);
         batch.end();
 
-        batch.setShader(null);
-        occludersFB = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
-        second = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
-        third = new FrameBuffer(Pixmap.Format.RGBA8888, lightSize, lightSize, false);
+        occluders.dispose(); shadowMap.dispose();
     }
     private void drawLights() {
-        drawLight(256, 256, 512);
+        drawLight(256, 64, 512, new Color(1, 0.5f, 0.5f, 0.5f));
+        drawLight(512, 128, 1024, new Color(0.5f, 1, 0.5f, 0.5f));
     }
 
     @Override

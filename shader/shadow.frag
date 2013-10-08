@@ -1,48 +1,40 @@
-#ifdef GL_ES
-#define LOWP lowp
-precision mediump float;
-#else
-#define LOWP
-#endif
+#define PI 3.14
 
-varying LOWP vec4 v_color;
+//inputs from vertex shader
 varying vec2 v_texCoords;
+
+//uniform values
 uniform sampler2D u_texture;
+uniform vec2 resolution;
 
-void main()
-{
-    float a = 0.0;
+//alpha threshold for our occlusion map
+const float THRESHOLD = 0.75;
 
-    float u0 = v_texCoords.x * 2.0 - 1.0;
-    float v0 = v_texCoords.y * 2.0 - 1.0;
-
-    float fade = 1.0;
-    fade = sqrt(pow(abs(u0), 2) + pow(abs(v0), 2));
-    fade = 1.0 - fade;
-
-    float ver = 0.0;
-    if (abs(u0) < abs(v0)) {
-        ver = 1.0;
-    }
-
-    if (ver == 0.0) {
-        v0 = v0 / abs(u0);
-        v0 = (v0 + 1.0) / 2.0;
-
-        vec2 newCoords = vec2(v_texCoords.x, v0);
-
-        vec4 sample = texture2D(u_texture, newCoords);
-        a = sample.r;
-    } else {
-        u0 = u0 / abs(v0);
-        u0 = (u0 + 1.0) / 2.0;
-
-        // don't know why this works, don't question it
-        vec2 newCoords = vec2(v_texCoords.y, u0);
-
-        vec4 sample = texture2D(u_texture, newCoords);
-        a = sample.g;
-    }
-
-    gl_FragColor = vec4(0.6, 0.2, 1.0, a * fade);
+void main(void) {
+  float distance = 1.0;
+  
+  for (float y=0.0; y<resolution.y; y+=1.0) {
+  		//rectangular to polar filter
+		vec2 norm = vec2(v_texCoords.s, y/resolution.y) * 2.0 - 1.0;
+		float theta = PI*1.5 + norm.x * PI; 
+		float r = (1.0 + norm.y) * 0.5;
+		
+		//coord which we will sample from occlude map
+		vec2 coord = vec2(-r * sin(theta), -r * cos(theta))/2.0 + 0.5;
+		
+		//sample the occlusion map
+		vec4 data = texture2D(u_texture, coord);
+		
+		//the current distance is how far from the top we've come
+		float dst = y/resolution.y;
+		
+		//if we've hit an opaque fragment (occluder), then get new distance
+		//if the new distance is below the current, then we'll use that for our ray
+		float caster = data.a;
+		if (caster > THRESHOLD) {
+			distance = min(distance, dst);
+			//NOTE: we could probably use "break" or "return" here
+  		}
+  } 
+  gl_FragColor = vec4(vec3(distance), 1.0);
 }
